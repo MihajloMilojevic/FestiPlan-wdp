@@ -1,8 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import useTitle from "../../hooks/useTitle";
 
 function OrganizerPage() {
     const params = useParams();
+    useTitle(`${params.id} | FestiPlan`)
     return (
         <div>
             <h1 >Welcome to the OrganizerPage!</h1>

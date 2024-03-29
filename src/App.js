@@ -6,13 +6,15 @@ import * as AdminComponents from './components/admin';
 import * as ClientPages from "./pages/client";
 import * as AdminPages from "./pages/admin";
 
+import "./styles/global.css";
+
 function App() {
     return (
         <AppContextProvider>
             <BrowserRouter>
                 <Routes >
                     <Route path='/admin' element={<AdminComponents.Layout />}>
-                        <Route path="/admin" element={<Navigate to="/admin/organizers"/>} />
+                        <Route path="/admin"  element={<Navigate replace to="/admin/organizers"/>} />
                         <Route path="/admin/organizers" element={<AdminPages.OrganizersPage />} />
                         <Route path="/admin/materijaliorganizers/:id" element={<AdminPages.SingleOrganizerPage />} />
                         <Route path="/admin/festivals/:id" element={<AdminPages.SingleFestivalPage />} />
