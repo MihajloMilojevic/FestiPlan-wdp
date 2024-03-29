@@ -26,7 +26,7 @@ function App() {
                     <Route path='/' element={<ClientComponents.Layout />}>
                         <Route path="/" element={<ClientPages.Homepage />} />
                         <Route path="/organizers/:id" element={<ClientPages.OrganizerPage />} />
-                        <Route path="/festivals/:id" element={<ClientPages.OrganizerPage />} />
+                        <Route path="/festivals/:id" element={<ClientPages.FestivalPage />} />
                         <Route path="*" element={<ClientPages.Error404 />} />
                     </Route>
                 </Routes>
