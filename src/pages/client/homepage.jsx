@@ -1,10 +1,11 @@
 import React from 'react';
 import useTitle from "../../hooks/useTitle";
-import data from "../../organizatori_festivala_srpski.json"
 import { SearchableText } from '../../components/common';
+import { useAppContext } from '../../context/contextProvider';
 
 function Homepage() {
     useTitle(`FestiPlan`)
+    const { data } = useAppContext();
     return (
         <div>
             <h1>Welcome to the Homepage!</h1>
