@@ -11,7 +11,7 @@ function OrganizerCard({organizer}) {
                     <img src={organizer.logo} alt={organizer.name} className={styles.image}/>
                 </div>
                 <h2 className={styles.text}><SearchableText text={organizer.name} /></h2>
-                <p className={styles.bagde}>{organizer.festivals.length}</p>
+                <p title="Number of active festivals" className={styles.bagde}><SearchableText text={organizer.festivals.length.toString()}/></p>
             </div>
         </Link>
     );
