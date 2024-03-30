@@ -1,18 +1,19 @@
 import React from 'react';
 import useTitle from "../../hooks/useTitle";
-import { SearchableText } from '../../components/common';
+import {HeroSection, OrganizerList} from '../../components/client';
 import { useAppContext } from '../../context/contextProvider';
+import styles from "../../styles/client/homepage.module.css";
 
 function Homepage() {
-    useTitle(`FestiPlan`)
     const { data } = useAppContext();
+    useTitle(`FestiPlan`)
     return (
         <div>
-            <h1>Welcome to the Homepage!</h1>
-            <img src="/Logo.png" width={300}/>
-            <pre>
-                <SearchableText text={JSON.stringify(data, null, 2)} />
-            </pre>
+            <HeroSection />
+            <div className={styles.organizers_list_container}>
+                <h2>Check out our organizers</h2>
+                <OrganizerList organizers={data.organizers}/>
+            </div>
         </div>
     );
 }

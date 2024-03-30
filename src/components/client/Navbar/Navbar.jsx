@@ -16,7 +16,7 @@ const Navbar = () => {
     const [menuHeight, setMenuHeight] = useState(0);
     const inputRef = useRef();
     const navRef = useRef();
-    const {setSearchText} = useAppContext();
+    const {setSearchText, setNavHeight} = useAppContext();
 
     useEffect(() => {
         if (!searchActive) {
@@ -33,6 +33,7 @@ const Navbar = () => {
 
     useEffect(() => {
         setMenuHeight(navRef.current?.getBoundingClientRect()?.height ?? 0);
+        setNavHeight(navRef.current?.getBoundingClientRect()?.height ?? 0);
     }, [navRef.current])
 
     useEffect(() => {
@@ -92,8 +93,8 @@ const Navbar = () => {
                 }
             </div>
             <Sidebar {...{
-                 searchActive, setSearchActive, inputValue, setInputValue, inputRef,
-                 active: menuActive, height: windowSize.height - menuHeight - 1, width: (menuActive ? windowSize.width : 0)
+                 searchActive, setSearchActive, inputValue, setInputValue, inputRef, menuActive, setMenuActive,
+                 active: menuActive, height: `calc(100vh - ${menuHeight}px)`, width: (menuActive ? windowSize.width : 0)
             }} />
         </nav>
     );

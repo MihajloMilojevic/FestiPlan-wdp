@@ -4,19 +4,22 @@ import { AiOutlineSearch } from "@react-icons/all-files/ai/AiOutlineSearch"
 import styles from "./Sidebar.module.css";
 
 
-function Sidebar({active, height, width, searchActive, setSearchActive, inputValue, setInputValue}) {
+function Sidebar({active, height, width, searchActive, setSearchActive, inputValue, setInputValue, menuActive, setMenuActive}) {
     const inputRef = useRef();
+    function close() {
+        setMenuActive(false)
+    }
     return (
         <div 
             className={`${styles.sidebar} ${active ? styles.active : ""}`} 
             style={{height, width}}
         >
             <ul className={styles.list}>
-                <li className={`${styles.link}`}>Login</li>
-                <li className={`${styles.link}`}>Register</li>
-                <li className={`${styles.link}`}><Link to="/admin">Admin</Link> </li>
-                <li
-                        className={`
+                <li onClick={close} className={`${styles.link}`}>Login</li>
+                <li onClick={close} className={`${styles.link}`}>Register</li>
+                <li onClick={close} className={`${styles.link}`}><Link to="/admin">Admin</Link> </li>
+                <li 
+                    className={`
                         ${styles.link} 
                         ${styles.block} 
                         ${styles.search}

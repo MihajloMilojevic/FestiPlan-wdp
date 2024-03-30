@@ -7,12 +7,14 @@ const AppContext = createContext();
 export default function AppContextProvider({children }) {
 	const [searchText, setSearchText] = useState("");
 	const [data, setData] = useState(APIs.parseData(static_data));
+	const [navHeight, setNavHeight] = useState(0);
 	console.log(data)
 	return (
 		<AppContext.Provider
 			value={{
 				searchText, setSearchText,
-				data, setData
+				data, setData,
+				navHeight, setNavHeight
 			}}
 		>	
 			{children}
