@@ -25,7 +25,6 @@ const Navbar = () => {
     }, [searchActive])
 
     useEffect(() => {
-        console.log(windowSize);
         if (windowSize.width > 600) {
             setMenuActive(false);
         }
