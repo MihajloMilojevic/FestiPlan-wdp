@@ -7,11 +7,13 @@ import * as ClientPages from "./pages/client";
 import * as AdminPages from "./pages/admin";
 
 import "./styles/global.css";
+import { ScrollToTopRouter } from './components/common';
 
 function App() {
     return (
         <AppContextProvider>
             <BrowserRouter>
+                <ScrollToTopRouter />
                 <Routes >
                     <Route path='/admin' element={<AdminComponents.Layout />}>
                         <Route path="/admin"  element={<Navigate replace to="/admin/organizers"/>} />
