@@ -28,18 +28,17 @@
     color: var(--color-auxuliary-2);
 }
 .bagde {
-    position: absolute;
+    /* position: absolute;
     top: 0;
     right: 0;
     transform: translate(30%, -30%);
     width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    height: 50px; */
+    padding: 0.5rem 1rem;
+    border-radius: 9999999999px;
     background-color: var(--color-auxuliary-2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-    font-size: 1.25rem;
-    font-weight: bold;
+    color: var(--color-bg-secondary);
+    font-size: 1rem;
+    font-weight: 700;
+    align-self: start;
 }
