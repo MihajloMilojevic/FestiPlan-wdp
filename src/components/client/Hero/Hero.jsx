@@ -5,7 +5,7 @@ import { Fireworks } from 'fireworks/lib/react'
 import useWindowSize from "../../../hooks/useWindowSize";
 import { SearchableText } from "../../common";
 
-function HeroSection() {
+function HeroSection({imageSrc = "/hero-image.jpg", fireworks=false, children}) {
     const {navHeight} = useAppContext();
     const windowSize = useWindowSize();
     let fxProps = {
@@ -21,10 +21,9 @@ function HeroSection() {
       }
     return (
         <header className={styles.hero} style={{height: `calc(100vh - ${navHeight}px)`, paddingBottom: navHeight}}>
-            {windowSize.width > 750 && <Fireworks {...fxProps} />}
-            <img src="/hero-image.jpg" className={styles.bg} />
-            <h1><SearchableText text="FestiPlan" /></h1>
-            <p><SearchableText text="Bringing festivities to life, one plan at the time!" /></p>
+            { fireworks && windowSize.width > 750 && <Fireworks {...fxProps} />}
+            <img src={imageSrc} className={styles.bg} />
+            {children}
         </header>
     )
 }

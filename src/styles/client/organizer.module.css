@@ -1,0 +1,15 @@
+.page {
+    padding: 2rem 1rem;
+    width: 70%;
+    margin: auto;
+}
+@media screen and (max-width: 1050px) {
+    .page {
+        width: 80%;
+    }
+}
+@media screen and (max-width: 800px) {
+    .page {
+        width: 100%;
+    }
+}

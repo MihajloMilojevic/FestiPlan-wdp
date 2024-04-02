@@ -3,9 +3,9 @@ import styles from "./OrganizerCard.module.css";
 import { Link } from 'react-router-dom';
 import { SearchableText } from '../../common';
 
-function OrganizerCard({organizer}) {
+function OrganizerCard({item: organizer}) {
     return (
-        <Link to={`/organizerS/${organizer.id}`}>
+        <Link to={`/organizers/${organizer.id}`}>
             <div className={styles.card}>
                 <div className={styles.image_container}>
                     <img src={organizer.logo} alt={organizer.name} className={styles.image}/>
