@@ -7,7 +7,6 @@ function FestivalCard({item: festival}) {
     const [activeImage, setActiveImage] = useState(0);
     const [intervalObj, setIntervalObj] = useState(null);
     function onHover() {
-        console.log("hover");
         if (festival.images.length > 1) {
             const interval = setInterval(() => {
                 setActiveImage((prev) => (prev + 1) % festival.images.length);
@@ -22,7 +21,7 @@ function FestivalCard({item: festival}) {
     }
 
     return (
-        <Link to={`/festivals/${festival.id}`}>
+        <Link to={`/organizers/${festival.organizerId}/festivals/${festival.id}`}>
             <div className={styles.card} onMouseEnter={onHover} onMouseLeave={onHoverEnd}>
                 <div className={styles.image_container}>
                     {
@@ -32,6 +31,10 @@ function FestivalCard({item: festival}) {
                     }
                 </div>
                 <h2 className={styles.text}><SearchableText text={festival.name} /></h2>
+                <div className={styles.taglist}>
+                    <p className={styles.tag}><SearchableText text={festival.price + "rsd"} /></p>
+                    <p className={styles.tag}><SearchableText text={festival.type} /></p>
+                </div>
             </div>
         </Link>
     );

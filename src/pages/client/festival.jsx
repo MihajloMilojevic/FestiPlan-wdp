@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import useTitle from "../../hooks/useTitle";
 
 function FestivalPage() {
-    const params = useParams();
-    useTitle(`${params.id} | FestiPlan`)
+    const {organizerId, festivalId} = useParams();
+    useTitle(`${festivalId} | FestiPlan`)
     return (
         <div>
-            <h1 >Welcome to the Festival!</h1>
-            {params.id && <h2>Festival ID: {params.id}</h2>}
+            <h1>Welcome to the Festival!</h1>
+            {festivalId && <h2>Festival ID: {festivalId}</h2>}
         </div>
     );
 }

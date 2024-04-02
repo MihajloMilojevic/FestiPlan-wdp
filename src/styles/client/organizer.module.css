@@ -3,6 +3,34 @@
     width: 70%;
     margin: auto;
 }
+.h2 {
+    font-size: 2rem;
+}
+.p {
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.p span:first-of-type {
+    min-width: max-content;
+    word-wrap:normal;
+    word-break:keep-all;
+}
+.p:last-of-type span:first-of-type {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.p div {
+    min-width: 1rem;
+    flex: 1;
+    align-self: last baseline;
+    border-bottom: 2.5px dotted rgba(255, 255, 255, 0.75);
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='white' stroke-width='5' stroke-dasharray='2%2c 8' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+}
 @media screen and (max-width: 1050px) {
     .page {
         width: 80%;
@@ -11,5 +39,8 @@
 @media screen and (max-width: 800px) {
     .page {
         width: 100%;
+    }
+    .p {
+        font-size: 1rem;
     }
 }
