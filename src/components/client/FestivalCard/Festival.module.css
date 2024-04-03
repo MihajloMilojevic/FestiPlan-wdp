@@ -62,4 +62,8 @@
     color: var(--color-bg-secondary);
     font-size: 1rem;
     font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
 }

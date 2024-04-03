@@ -5,6 +5,7 @@ import { useAppContext } from '../../context/contextProvider';
 import NotFound from './404';
 import { CardList, FestivalCard, HeroSection } from '../../components/client';
 import styles from "../../styles/client/organizer.module.css"
+import { Info, SearchableText } from '../../components/common';
 
 function OrganizerPage() {
     const {data} = useAppContext();
@@ -17,15 +18,37 @@ function OrganizerPage() {
     return (
         <div>
             <HeroSection imageSrc={organizer.logo}>
-                <h1>{organizer.name}</h1>
+                <h1><SearchableText text={organizer.name} /></h1>
             </HeroSection>
             <div className={styles.page}>
-                <h2 className={styles.h2}>Basic information:</h2>
-                <p className={styles.p}><span>Address:</span> <div /> <span>{organizer.address}</span></p>
-                <p className={styles.p}><span>Email:</span> <div /> <a href={`mailto:${organizer.email}`}>{organizer.email}</a></p>
-                <p className={styles.p}><span>Phone:</span> <div /> <a href={`tel:${organizer.contactPhone}`}>{organizer.contactPhone}</a></p>
-                <p className={styles.p}><span>Year of Establishment:</span> <div /> <span>{organizer.yearOfEstablishment}</span></p>
-                <h2 className={styles.h2}>Festivals:</h2>
+                <h2 className={styles.h2}><SearchableText text="Basic information:" /></h2>
+                <div className={styles.info}>
+                    <Info 
+                        left={<SearchableText text="Address:" />}
+                        breakLeft={false}
+                        right={<SearchableText text={organizer.address} />}
+                        breakRight={true}
+                    />
+                    <Info 
+                        left={<SearchableText text="Email: " />}
+                        breakLeft={false}
+                        right={<a href={`mailto:${organizer.email}`}>{<SearchableText text={organizer.email}/>}</a>}
+                        breakRight={true}
+                    />
+                    <Info 
+                        left={<SearchableText text="Phone: " />}
+                        breakLeft={false}
+                        right={<a href={`tel:${organizer.contactPhone}`}>{<SearchableText text={organizer.contactPhone} />}</a>}
+                        breakRight={true}
+                    />
+                    <Info 
+                        left={<SearchableText text="Year of Establishment: " />}
+                        breakLeft={true}
+                        right={<SearchableText text={organizer.yearOfEstablishment} />}
+                        breakRight={true}
+                    />
+                </div>
+                <h2 className={styles.h2}><SearchableText text="Festivals:" /></h2>
                 <CardList data={organizer.festivals.map(f => ({...f, organizerId}))} CardComponent={FestivalCard} />
             </div>
         </div>

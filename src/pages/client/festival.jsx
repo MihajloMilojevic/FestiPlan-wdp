@@ -1,11 +1,16 @@
 import React, {useMemo, useState} from 'react';
 import useTitle from "../../hooks/useTitle";
 import { useParams } from 'react-router-dom';
-import {HeroSection, CardList, OrganizerCard} from '../../components/client';
+import {HeroSection, CardList, OrganizerCard, FestivalTypeIcon, FestivalTransportationIcon} from '../../components/client';
 import NotFound from './404';
 import { useAppContext } from '../../context/contextProvider';
 import styles from "../../styles/client/festival.module.css";
-import { SearchableText } from '../../components/common';
+import { Info, SearchableText } from '../../components/common';
+import {GrNext} from "@react-icons/all-files/gr/GrNext"
+import {GrPrevious} from "@react-icons/all-files/gr/GrPrevious"
+import {GiTakeMyMoney} from "@react-icons/all-files/gi/GiTakeMyMoney"
+import {HiOutlineUserGroup} from "@react-icons/all-files/hi/HiOutlineUserGroup"
+
 
 function FestivalPage() {
 
@@ -30,14 +35,79 @@ function FestivalPage() {
                             <img className={`${styles.image} ${index === activeIndex ? styles.active : ""}`} key={index} src={image} alt={festival.name + (index+1)} />
                         ))
                     }
+                    <button 
+                        className={styles.btn} 
+                        onClick={() => setActiveIndex(prev => (prev - 1 + festival.images.length) % festival.images.length)}
+                    >
+                        <GrPrevious size={25} />
+                    </button>
+                    <button 
+                        className={styles.btn} 
+                        onClick={() => setActiveIndex(prev => (prev + 1) % festival.images.length)}
+                    >
+                        <GrNext size={25} />
+                    </button>
+                    <div className={styles.circle_list}>
+                        {festival.images.map((_, index) => (
+                            <button
+                                key={index}
+                                className={`${styles.circle} ${index == activeIndex ? styles.current : ""}`} 
+                                onClick={() => setActiveIndex(index)}
+                            />
+                        ))}
+                    </div>
                 </div>
                 <div className={styles.content}>
-                    <h1>{festival.name}</h1>
-                    <p>{festival.description}</p>
+                    <h1><SearchableText text={festival.name} /></h1>
+                    <p className={styles.desc}><SearchableText text={festival.description} /></p>
+                    <div className={styles.info}>
+                        <Info 
+                            left={<SearchableText text="Type: " />}
+                            breakLeft={false}
+                            right={
+                                <div className={styles.icon_text}>
+                                    <FestivalTypeIcon type={festival.type} size={25} /> 
+                                    <SearchableText text={festival.type} />
+                                </div>
+                            }
+                            breakRight={true}
+                        />
+                        <Info 
+                            left={<SearchableText text="Transportation: " />}
+                            breakLeft={false}
+                            right={
+                                <div className={styles.icon_text}>
+                                    <FestivalTransportationIcon transportation={festival.transportation} size={25} /> 
+                                    <SearchableText text={festival.transportation} />
+                                </div>
+                            }
+                            breakRight={true}
+                        />
+                        <Info 
+                            left={<SearchableText text="Price: " />}
+                            breakLeft={false}
+                            right={
+                                <div className={styles.icon_text}>
+                                    <GiTakeMyMoney size={25} /> 
+                                    <SearchableText text={`${festival.price} rsd`} />
+                                </div>
+                            }
+                            breakRight={true}
+                        />
+                        <Info 
+                            left={<SearchableText text="People: " />}
+                            breakLeft={false}
+                            right={
+                                <div className={styles.icon_text}>
+                                    <HiOutlineUserGroup size={25} /> 
+                                    <SearchableText text={`${festival.maxPerson}`} />
+                                </div>
+                            }
+                            breakRight={true}
+                        />
+                    </div>
                 </div>
             </div>
-            <button style={{margin: 20, padding: 10, fontSize: 30}} onClick={() => setActiveIndex(prev => (prev + 1) % festival.images.length)}>{"<"}</button>
-            <button style={{margin: 20, padding: 10, fontSize: 30}} onClick={() => setActiveIndex(prev => (prev - 1 + festival.images.length) % festival.images.length)}>{">"}</button>
         </div>
     );
 }

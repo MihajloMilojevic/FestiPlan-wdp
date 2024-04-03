@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styles from "./Festival.module.css";
 import { Link } from 'react-router-dom';
 import { SearchableText } from '../../common';
+import FestivalTypeIcon from '../FestivalTypeIcon/FestivalTypeIcon';
 
 function FestivalCard({item: festival}) {
     const [activeImage, setActiveImage] = useState(0);
@@ -32,8 +33,8 @@ function FestivalCard({item: festival}) {
                 </div>
                 <h2 className={styles.text}><SearchableText text={festival.name} /></h2>
                 <div className={styles.taglist}>
-                    <p className={styles.tag}><SearchableText text={festival.price + "rsd"} /></p>
-                    <p className={styles.tag}><SearchableText text={festival.type} /></p>
+                    <p className={styles.tag}><SearchableText text={festival.price + " rsd"} /></p>
+                    <p className={styles.tag}><FestivalTypeIcon type={festival.type} size={20} /><SearchableText text={festival.type} /></p>
                 </div>
             </div>
         </Link>
