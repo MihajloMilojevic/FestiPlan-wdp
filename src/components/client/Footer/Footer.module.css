@@ -46,7 +46,7 @@
     word-break: break-all;
 }
 .link:hover {
-    color: var(--color-auxuliary-2);
+    color: var(--color-auxiliary-2);
 }
 @media screen and (max-width: 940px) {
     .footer {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Hero.module.css"
 import { useAppContext } from "../../../context/contextProvider";
 import { Fireworks } from 'fireworks/lib/react'
@@ -6,8 +6,23 @@ import useWindowSize from "../../../hooks/useWindowSize";
 import { SearchableText } from "../../common";
 
 function HeroSection({imageSrc = "/hero-image.jpg", fireworks=false, children}) {
+    const [showFireworks, setShowFireworks] = useState(fireworks);
     const {navHeight} = useAppContext();
     const windowSize = useWindowSize();
+    useEffect(() => {
+      function handleLeave() {
+        setShowFireworks(false);
+      }
+      function handleEnter() {
+        setShowFireworks(fireworks);
+      }
+      window.addEventListener("blur", handleLeave);
+      window.addEventListener("focus", handleEnter);
+      return () => {
+        window.removeEventListener("blur", handleLeave);
+        window.removeEventListener("focus", handleEnter);
+      }
+    }, [])
     let fxProps = {
         count: 3,
         interval: 1000,
@@ -21,9 +36,9 @@ function HeroSection({imageSrc = "/hero-image.jpg", fireworks=false, children}) 
       }
     return (
         <header className={styles.hero} style={{height: `calc(100vh - ${navHeight}px)`, paddingBottom: navHeight}}>
-            { fireworks && windowSize.width > 750 && <Fireworks {...fxProps} />}
             <img src={imageSrc} className={styles.bg} />
             {children}
+            { showFireworks && windowSize.width > 750 && <div style={{position: "absolute"}}><Fireworks  {...fxProps} /></div>}
         </header>
     )
 }

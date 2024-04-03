@@ -36,7 +36,7 @@ body:has(.sidebar.active) {
     width: 100%;
     opacity: 1;
     pointer-events: all;
-    background: var(--color-auxuliary-1);
+    background: var(--color-auxiliary-1);
 }
 .search {
     gap: 0.25rem;
@@ -66,7 +66,7 @@ body:has(.sidebar.active) {
     cursor: pointer;
 }
 .link:hover {
-    color: var(--color-auxuliary-2);
+    color: var(--color-auxiliary-2);
 }
 .search_active_parent {
     position: relative;

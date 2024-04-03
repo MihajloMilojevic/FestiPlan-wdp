@@ -31,7 +31,7 @@
     left: 0;
 }
 .gallery .btn {
-    background-color: var(--color-auxuliary-2);
+    background-color: var(--color-auxiliary-2);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,10 +66,10 @@
     border-radius: 50%;
     border: none;
     outline: none;
-    background-color: var(--color-auxuliary-1);
+    background-color: var(--color-auxiliary-1);
 }
 .gallery .circle.current {
-    background-color: var(--color-auxuliary-2);
+    background-color: var(--color-auxiliary-2);
 }
 .content {
     align-self: stretch;

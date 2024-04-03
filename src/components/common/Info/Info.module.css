@@ -30,10 +30,10 @@
 }
 
 .info:hover {
-    color: var(--color-auxuliary-2);
+    color: var(--color-auxiliary-2);
 }
 .info:hover .connect {
-    border-color: var(--color-auxuliary-2);
+    border-color: var(--color-auxiliary-2);
 }
 
 @media screen and (max-width: 800px) {

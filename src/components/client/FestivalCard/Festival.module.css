@@ -12,7 +12,7 @@
     position: relative;
     padding: 1rem;
     border-radius: 1rem;
-    background-color: var(--color-auxuliary-1);
+    background-color: var(--color-auxiliary-1);
     background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
 }
 .image_container {
@@ -44,7 +44,7 @@
 .text {
     text-align: center;
     text-wrap: wrap;
-    color: var(--color-auxuliary-2);
+    color: var(--color-auxiliary-2);
 }
 .taglist {
     flex: 1;
@@ -58,7 +58,7 @@
 .tag {
     padding: 0.5rem 1rem;
     border-radius: 9999999999px;
-    background-color: var(--color-auxuliary-2);
+    background-color: var(--color-auxiliary-2);
     color: var(--color-bg-secondary);
     font-size: 1rem;
     font-weight: 700;
