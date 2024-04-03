@@ -713,6 +713,17 @@
             "address": "Cara Dušana 8, Zrenjanin, 23000",
             "phone": "065321321",
             "profession": "Web developer"
+        },
+        "-MNQoWt_gDudX5W8TLQa": {
+            "username": "test",
+            "password": "test123",
+            "name": "Test",
+            "surname": "Test",
+            "email": "test@example.com",
+            "dateOfBirth": "1998-06-29",
+            "address": "test 8, test, 23000",
+            "phone": "06512345678",
+            "profession": "QA tester"
         }
     }
 }

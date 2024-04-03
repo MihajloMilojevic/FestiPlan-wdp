@@ -11,15 +11,11 @@ const Modal = ({ isOpen, children, useDefaultStyles, contentWrapperStyles, conte
         }
     }, [isOpen]);
     return (
-        <>
-            {isOpen && (
-                <div className={styles.overlay}>
-                    <div className={`${useDefaultStyles ? styles.content : ""} ${contentWrapperClassName}`} style={{...(contentWrapperStyles || {})}}>
-                        {children}
-                    </div>
-                </div>
-            )}
-        </>
+        <div className={`${styles.overlay} ${isOpen ? styles.visible : ""}`}>
+            <div className={`${useDefaultStyles ? styles.content : ""} ${contentWrapperClassName}`} style={{...(contentWrapperStyles || {})}}>
+                {children}
+            </div>
+        </div>
     );
 };
 

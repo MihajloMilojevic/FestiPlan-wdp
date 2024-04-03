@@ -68,6 +68,14 @@ body:has(.sidebar.active) {
 .link:hover {
     color: var(--color-auxiliary-2);
 }
+.user {
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+.user:hover {
+    color: var(--color-auxiliary-2);
+}
 .search_active_parent {
     position: relative;
 }
@@ -91,6 +99,9 @@ body:has(.sidebar.active) {
         max-height: 35px;
     }
     .link {
+        font-size: 1rem;
+    }
+    .user {
         font-size: 1rem;
     }
 }

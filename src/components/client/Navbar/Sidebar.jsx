@@ -2,12 +2,26 @@ import React, {useRef} from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineSearch } from "@react-icons/all-files/ai/AiOutlineSearch"
 import styles from "./Sidebar.module.css";
+import { Login, loginWrapperClassName } from '../../common';
+import { useAppContext } from '../../../context/contextProvider';
+import toast from 'react-hot-toast';
 
 
 function Sidebar({active, height, width, searchActive, setSearchActive, inputValue, setInputValue, menuActive, setMenuActive}) {
     const inputRef = useRef();
+    const {modal, user, setUser} = useAppContext();
     function close() {
         setMenuActive(false)
+    }
+    function loginClick() {
+        modal.open(<Login />, {contentWrapperClassName: loginWrapperClassName})
+        close();
+    }
+
+    function logoutClick() {
+        setUser(null);
+        toast.success("Successfully logged out!\nGoodbye! See you soon!");
+        close();
     }
     return (
         <div 
@@ -15,8 +29,19 @@ function Sidebar({active, height, width, searchActive, setSearchActive, inputVal
             style={{height, width}}
         >
             <ul className={styles.list}>
-                <li onClick={close} className={`${styles.link}`}>Login</li>
-                <li onClick={close} className={`${styles.link}`}>Register</li>
+                {
+                    user ? (
+                        <>
+                            <li className={`${styles.user} ${searchActive ? styles.search_active_other : ""}`}>{user.name}</li>
+                            <li onClick={logoutClick} className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Logout</li>
+                        </>
+                    ) : (
+                        <>
+                            <li onClick={loginClick} className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Login</li>
+                            <li className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Register</li>
+                        </>
+                    )
+                }
                 <li onClick={close} className={`${styles.link}`}><Link to="/admin">Admin</Link> </li>
                 <li 
                     className={`

@@ -7,6 +7,8 @@ import { AiOutlineCloseCircle } from "@react-icons/all-files/ai/AiOutlineCloseCi
 import { AiOutlineSearch } from "@react-icons/all-files/ai/AiOutlineSearch"
 import Sidebar from './Sidebar';
 import { useAppContext } from '../../../context/contextProvider';
+import { Login, loginWrapperClassName } from '../../common';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
     const windowSize = useWindowSize();
@@ -16,7 +18,8 @@ const Navbar = () => {
     const [menuHeight, setMenuHeight] = useState(0);
     const inputRef = useRef();
     const navRef = useRef();
-    const {setSearchText, setNavHeight} = useAppContext();
+    const {modal, setSearchText, setNavHeight, user, setUser} = useAppContext();
+    
 
     useEffect(() => {
         if (!searchActive) {
@@ -39,6 +42,15 @@ const Navbar = () => {
         setSearchText(inputValue);
     }, [inputValue])
 
+    function loginClick() {
+        modal.open(<Login />, {contentWrapperClassName: loginWrapperClassName})
+    }
+
+    function logoutClick() {
+        setUser(null);
+        toast.success("Successfully logged out!\nGoodbye! See you soon!");
+    }
+
     return (
         <nav ref={navRef} className={`${styles.navbar} ${menuActive ? styles.active_menu : ""}`}>
             <div>
@@ -50,8 +62,19 @@ const Navbar = () => {
                 {
                     !windowSize.width || windowSize.width > 600 ? (
                         <ul className={styles.list}>
-                            <li className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Login</li>
-                            <li className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Register</li>
+                            {
+                                user ? (
+                                    <>
+                                        <li className={`${styles.user} ${searchActive ? styles.search_active_other : ""}`}>{user.name}</li>
+                                        <li onClick={logoutClick} className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Logout</li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li onClick={loginClick} className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Login</li>
+                                        <li className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Register</li>
+                                    </>
+                                )
+                            }
                             <li className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}> <Link to="/admin">Admin</Link> </li>
                             <li
                                  className={`
