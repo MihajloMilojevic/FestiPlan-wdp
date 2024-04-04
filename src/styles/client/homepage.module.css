@@ -1,9 +1,45 @@
 .organizers_list_container {
     padding: 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
 }
 .organizers_list_container h2 {
     text-align: center;
-    margin-bottom: 2rem;
+    font-size: xx-large;
+}
+.filter_container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+.input_field {
+    background-color: var(--color-auxiliary-1);
+    border-radius: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    flex: 1;
+    max-width: 500px;
+}
+.input_field input {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    caret-color: white;
+    width: 100%;
+    color: var(--color-main);
+    font-size: 1.25rem;
+}
+.input_field input::placeholder {
+    color: var(--color-main);
+    opacity: 0.75;
 }
 
 
