@@ -1,15 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../../context/contextProvider";
 import styles from "./Login.module.css";
 import toast from "react-hot-toast";
+import {IoEyeOutline} from "@react-icons/all-files/io5/IoEyeOutline";
+import {IoEyeOffOutline} from "@react-icons/all-files/io5/IoEyeOffOutline";
 
 export default function Login() {
     const {modal, data, setUser} = useAppContext()
+    const [showPassword, setShowPassword] = useState(false)
 
     function handleSubmit(event) {
         event.preventDefault();
         const username = event.target.username.value;
         const password = event.target.password.value;
+        if(!username) {
+            toast.error("Please enter a username.");
+            return;
+        } 
+        if(!password) {
+            toast.error("Please enter a password.");
+            return;
+        } 
         for(const user of data.users) {
             if(user.username === username && user.password === password) {
                 setUser(user);
@@ -18,7 +29,7 @@ export default function Login() {
                 return;
             }
         }
-        toast.error("Invalid username or password. Please try again.");
+        toast.error("Invalid username or password.\n Please try again.");
     }
 
     return (
@@ -29,9 +40,12 @@ export default function Login() {
                     <label htmlFor="username">Username:</label>
                     <input type="text" id="username" />
                 </div>
-                <div>
+                <div className={styles.pass}>
                     <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" />
+                    <input  type={showPassword ? "text" : "password"} id="password" />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? <IoEyeOffOutline size={20} /> : <IoEyeOutline size={20} />}
+                    </button>
                 </div>
             </div>
             <div className={styles.buttons}>
