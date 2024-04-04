@@ -8,17 +8,22 @@ import {IoEyeOffOutline} from "@react-icons/all-files/io5/IoEyeOffOutline";
 export default function Login() {
     const {modal, data, setUser} = useAppContext()
     const [showPassword, setShowPassword] = useState(false)
+    const [allowSubmit, setAllowSubmit] = useState(true)
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
+        if(!allowSubmit) return;
+        setAllowSubmit(false);
         const username = event.target.username.value;
         const password = event.target.password.value;
         if(!username) {
             toast.error("Please enter a username.");
+            setAllowSubmit(true);
             return;
         } 
         if(!password) {
             toast.error("Please enter a password.");
+            setAllowSubmit(true);
             return;
         } 
         for(const user of data.users) {
@@ -26,10 +31,12 @@ export default function Login() {
                 setUser(user);
                 modal.close();
                 toast.success(`Successfully logged in as ${user.name} ${user.surname}!\n Welcome back!`);
+                setAllowSubmit(true);
                 return;
             }
         }
         toast.error("Invalid username or password.\n Please try again.");
+        setAllowSubmit(true);
     }
 
     return (

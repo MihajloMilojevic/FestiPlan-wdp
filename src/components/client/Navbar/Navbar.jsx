@@ -7,7 +7,7 @@ import { AiOutlineCloseCircle } from "@react-icons/all-files/ai/AiOutlineCloseCi
 import { AiOutlineSearch } from "@react-icons/all-files/ai/AiOutlineSearch"
 import Sidebar from './Sidebar';
 import { useAppContext } from '../../../context/contextProvider';
-import { Login, loginWrapperClassName } from '../../common';
+import { Login, Register, loginWrapperClassName, registerWrapperClassName } from '../../common';
 import toast from 'react-hot-toast';
 
 const Navbar = () => {
@@ -46,6 +46,10 @@ const Navbar = () => {
         modal.open(<Login />, {contentWrapperClassName: loginWrapperClassName})
     }
 
+    function registerClick() {
+        modal.open(<Register />, {contentWrapperClassName: registerWrapperClassName})
+    }
+
     function logoutClick() {
         setUser(null);
         toast.success("Successfully logged out!\nGoodbye! See you soon!");
@@ -71,7 +75,7 @@ const Navbar = () => {
                                 ) : (
                                     <>
                                         <li onClick={loginClick} className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Login</li>
-                                        <li className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Register</li>
+                                        <li onClick={registerClick} className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Register</li>
                                     </>
                                 )
                             }

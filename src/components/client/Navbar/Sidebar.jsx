@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineSearch } from "@react-icons/all-files/ai/AiOutlineSearch"
 import styles from "./Sidebar.module.css";
-import { Login, loginWrapperClassName } from '../../common';
+import { Login, Register, loginWrapperClassName, registerWrapperClassName } from '../../common';
 import { useAppContext } from '../../../context/contextProvider';
 import toast from 'react-hot-toast';
 
@@ -23,6 +23,12 @@ function Sidebar({active, height, width, searchActive, setSearchActive, inputVal
         toast.success("Successfully logged out!\nGoodbye! See you soon!");
         close();
     }
+
+    function registerClick() {
+        modal.open(<Register />, {contentWrapperClassName: registerWrapperClassName})
+        close();
+    }
+
     return (
         <div 
             className={`${styles.sidebar} ${active ? styles.active : ""}`} 
@@ -38,7 +44,7 @@ function Sidebar({active, height, width, searchActive, setSearchActive, inputVal
                     ) : (
                         <>
                             <li onClick={loginClick} className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Login</li>
-                            <li className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Register</li>
+                            <li onClick={registerClick} className={`${styles.link} ${searchActive ? styles.search_active_other : ""}`}>Register</li>
                         </>
                     )
                 }
