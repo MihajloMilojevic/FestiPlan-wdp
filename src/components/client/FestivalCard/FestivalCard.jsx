@@ -3,6 +3,9 @@ import styles from "./Festival.module.css";
 import { Link } from 'react-router-dom';
 import { SearchableText } from '../../common';
 import FestivalTypeIcon from '../FestivalTypeIcon/FestivalTypeIcon';
+import FestivalTransportationIcon from '../FestivalTransportationIcon/FestivalTransportationIcon';
+import {GiTakeMyMoney} from "@react-icons/all-files/gi/GiTakeMyMoney"
+import {HiOutlineUserGroup} from "@react-icons/all-files/hi/HiOutlineUserGroup"
 
 function FestivalCard({item: festival}) {
     const [activeImage, setActiveImage] = useState(0);
@@ -24,16 +27,20 @@ function FestivalCard({item: festival}) {
     return (
         <Link to={`/organizers/${festival.organizerId}/festivals/${festival.id}`}>
             <div className={styles.card} onMouseEnter={onHover} onMouseLeave={onHoverEnd}>
-                <div className={styles.image_container}>
-                    {
-                        festival.images.map((image, index) => 
-                            <img key={index} style={{zIndex: index+2}} src={image} alt={festival.name + (index + 1)} className={`${styles.image} ${index === activeImage ? styles.active : ""}`}/>
-                        )
-                    }
+                <div>
+                    <div className={styles.image_container}>
+                        {
+                            festival.images.map((image, index) => 
+                                <img key={index} style={{zIndex: index+2}} src={image} alt={festival.name + (index + 1)} className={`${styles.image} ${index === activeImage ? styles.active : ""}`}/>
+                            )
+                        }
+                    </div>
+                    <h2 className={styles.text}><SearchableText text={festival.name} /></h2>
                 </div>
-                <h2 className={styles.text}><SearchableText text={festival.name} /></h2>
                 <div className={styles.taglist}>
-                    <p className={styles.tag}><SearchableText text={festival.price + " rsd"} /></p>
+                    <p className={styles.tag}><GiTakeMyMoney size={20} /><SearchableText text={festival.price + " rsd"} /></p>
+                    <p className={styles.tag}><HiOutlineUserGroup size={20} /><SearchableText text={festival.maxPerson.toString()} /></p>
+                    <p className={styles.tag}><FestivalTransportationIcon transportation={festival.transportation} size={20} /><SearchableText text={festival.transportation} /></p>
                     <p className={styles.tag}><FestivalTypeIcon type={festival.type} size={20} /><SearchableText text={festival.type} /></p>
                 </div>
             </div>

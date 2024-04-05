@@ -6,14 +6,22 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 1rem;
     position: relative;
     padding: 1rem;
     border-radius: 1rem;
     background-color: var(--color-auxiliary-1);
     background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+}
+.card > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 1rem;
 }
 .image_container {
     max-width: 300px;
@@ -47,13 +55,14 @@
     color: var(--color-auxiliary-2);
 }
 .taglist {
-    flex: 1;
+    /* flex: 1; */
     display: flex;
     gap: 0.75rem;
     justify-content: flex-start;
     width: 100%;
     align-items: flex-end;
     flex-wrap: wrap;
+    align-self: flex-end;
 }
 .tag {
     padding: 0.5rem 1rem;

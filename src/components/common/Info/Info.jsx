@@ -14,7 +14,7 @@ export default function Info({left, right, customConnect = null, breakLeft=false
                     {customConnect}
                 )
             }
-            <span className={`${breakLeft ? styles.break: styles.no_break}`}>
+            <span className={`${breakRight ? styles.break: styles.no_break}`}>
                 {right}
             </span>
         </div>

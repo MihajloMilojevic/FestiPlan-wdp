@@ -9,5 +9,37 @@ export default class Festival {
         this.price = price;
         this.maxPerson = maxPerson;
     }
+}
 
+export class FestivalTypes {
+    static EDUCATION = "Education";
+    static MUSIC = "Music";
+    static ART = "Art";
+    static FOOD = "Food";
+    static FILM = "Film";
+
+    static keys() { 
+        return ["EDUCATION", "MUSIC", "ART", "FOOD", "FILM"];
+    } 
+    static values() { 
+        return ["Education", "Music", "Art", "Food", "Film"];
+    }
+    static entries() { 
+        return [["EDUCATION", "Education"], ["MUSIC", "Music"], ["ART", "Art"], ["FOOD", "Food"], ["FILM", "Film"]];
+    }
+}
+
+export class FestivalTransportations {
+    static BUS = "Bus";
+    static PLANE = "Plane";
+    static OWN = "Own";
+    static keys() { 
+        return ["BUS", "PLANE", "OWN"];
+    }
+    static values() { 
+        return ["Bus", "Plane", "Own"];
+    }
+    static entries() { 
+        return [["BUS", "Bus"], ["PLANE", "Plane"], ["OWN", "Own"]];
+    }
 }
