@@ -32,7 +32,7 @@ function OrganizerPage() {
         }
     }
     function filterCheck(festival) {
-        if(filters.name && !festival.name.toLowerCase().includes(filters.name.toLowerCase())) return false;
+        if(filters.name.trim() && !festival.name.toLowerCase().includes(filters.name.toLowerCase().trim())) return false;
         if(filters.maxPerson && parseInt(filters.maxPerson) && festival.maxPerson > parseInt(filters.maxPerson)) return false;
         if(filters.minPrice && parseInt(filters.minPrice) && festival.price < parseInt(filters.minPrice)) return false;
         if(filters.maxPrice && parseInt(filters.maxPrice) && festival.price > parseInt(filters.maxPrice)) return false;
