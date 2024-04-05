@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import useTitle from "../../hooks/useTitle";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {HeroSection, CardList, OrganizerCard, FestivalTypeIcon, FestivalTransportationIcon} from '../../components/client';
 import NotFound from './404';
 import { useAppContext } from '../../context/contextProvider';
@@ -61,6 +61,16 @@ function FestivalPage() {
                     <h1><SearchableText text={festival.name} /></h1>
                     <p className={styles.desc}><SearchableText text={festival.description} /></p>
                     <div className={styles.info}>
+                        <Info 
+                            left={<SearchableText text="Organizer: " />}
+                            breakLeft={false}
+                            right={
+                                <Link to={`/organizers/${organizerId}`}>
+                                    <SearchableText text={organizer.name} />
+                                </Link>
+                            }
+                            breakRight={true}
+                        />
                         <Info 
                             left={<SearchableText text="Type: " />}
                             breakLeft={false}
