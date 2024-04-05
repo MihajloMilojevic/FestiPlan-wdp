@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useTitle from "../../hooks/useTitle";
 import { useAppContext } from '../../context/contextProvider';
-import NotFound from './404';
+import NotFound from '../404';
 import { CardList, FestivalCard, HeroSection } from '../../components/client';
 import styles from "../../styles/client/organizer.module.css"
 import { CustomCheckbox, Info, SearchableText } from '../../components/common';

@@ -7,10 +7,12 @@ function OrganizerCard({item: organizer}) {
     return (
         <Link to={`/organizers/${organizer.id}`}>
             <div className={styles.card}>
-                <div className={styles.image_container}>
-                    <img src={organizer.logo} alt={organizer.name} className={styles.image}/>
+                <div>
+                    <div className={styles.image_container}>
+                        <img src={organizer.logo} alt={organizer.name} className={styles.image}/>
+                    </div>
+                    <h2 className={styles.text}><SearchableText text={organizer.name} /></h2>
                 </div>
-                <h2 className={styles.text}><SearchableText text={organizer.name} /></h2>
                 <p title="Number of active festivals" className={styles.bagde}><SearchableText text={organizer.festivals.length.toString() + " Active festivals"}/></p>
             </div>
         </Link>

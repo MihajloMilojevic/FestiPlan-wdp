@@ -5,6 +5,8 @@ import * as ClientComponents from './components/client';
 import * as AdminComponents from './components/admin';
 import * as ClientPages from "./pages/client";
 import * as AdminPages from "./pages/admin";
+import Error404 from './pages/404';
+import ErrorPage from './pages/error';
 
 import "./styles/global.css";
 import { ScrollToTopRouter } from './components/common';
@@ -23,14 +25,15 @@ function App() {
                         <Route path="/admin/festivals/create-festival" element={<AdminPages.CreateFestivalPage />} />
                         <Route path="/admin/users" element={<AdminPages.UsersPage />} />
                         <Route path="/admin/users/:userId" element={<AdminPages.SingleUserPage />} />
-                        <Route path="/admin/*" element={<AdminPages.Error404 />} />
+                        <Route path="/admin/error" element={<ErrorPage url="/admin" />} />
+                        <Route path="/admin/*" element={<Error404 url="/admin" />} />
                     </Route>
                     <Route path='/' element={<ClientComponents.Layout />}>
                         <Route path="/" element={<ClientPages.Homepage />} />
                         <Route path="/organizers/:organizerId" element={<ClientPages.OrganizerPage />} />
                         <Route path="/organizers/:organizerId/festivals/:festivalId" element={<ClientPages.FestivalPage />} />
-                        <Route path="/error" element={<ClientPages.ErrorPage />} />
-                        <Route path="*" element={<ClientPages.Error404 />} />
+                        <Route path="/error" element={<ErrorPage url="/" />} />
+                        <Route path="*" element={<Error404 url="/" />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
