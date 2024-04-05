@@ -1,0 +1,25 @@
+.tabs {
+    width: 100%;
+    background-color: var(--color-auxiliary-1);
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    color: var(--color-main);
+    padding: 0.5rem 0.5rem 0 0.5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    
+}
+.tab {
+    cursor: pointer;
+    padding: 0.5rem 2rem;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-main);
+    transition: all 0.3s;
+    border-radius: 1rem 1rem 0 0 ;
+    font-weight: bold;
+}
+.active {
+    background-color: var(--color-auxiliary-2);
+    color: var(--color-bg-main);
+}

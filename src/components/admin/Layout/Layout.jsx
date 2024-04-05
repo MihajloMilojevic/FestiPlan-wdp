@@ -1,12 +1,19 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
+import Tabs from '../Tabs/Tabs';
 
 const Layout = () => {
     return (
-        <div>
-            <h1>Admin Layout</h1>
-            <Outlet />
-        </div>
+        <>
+            <Navbar />
+            <Tabs />
+            <main style={{flex: 1}}>
+                <Outlet />
+            </main>
+            <Footer />
+        </>
     );
 };
 
