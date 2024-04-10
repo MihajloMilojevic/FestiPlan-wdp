@@ -7,7 +7,7 @@
     max-height: 100vh !important;
     overflow-x: hidden;
     transition: 0.5s;
-    background-color: var(--color-bg-secondary);
+    background-color: var(--color-bg-main);
     display: flex;
     justify-self: center;
     align-items: center;

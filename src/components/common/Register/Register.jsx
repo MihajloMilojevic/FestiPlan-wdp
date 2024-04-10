@@ -20,7 +20,7 @@ export default function Register() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        
+        if(!allowSubmit) return;
         if(
             (formData.name.error || formData.surname.error || formData.email.error) || 
             (formData.name.error == null || formData.surname.error == null || formData.email.error == null) ||

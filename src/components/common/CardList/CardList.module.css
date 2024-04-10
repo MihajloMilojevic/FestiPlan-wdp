@@ -5,3 +5,6 @@
     flex-wrap: wrap;
     gap: 2rem;
 }
+.horizontal {
+    flex-direction: column;
+}

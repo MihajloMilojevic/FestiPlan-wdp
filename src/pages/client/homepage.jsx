@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import useTitle from "../../hooks/useTitle";
-import {HeroSection, CardList, OrganizerCard} from '../../components/client';
+import {HeroSection, OrganizerCard} from '../../components/client';
+import { CardList } from '../../components/common';
 import { useAppContext } from '../../context/contextProvider';
 import styles from "../../styles/client/homepage.module.css";
 import { SearchableText } from '../../components/common';

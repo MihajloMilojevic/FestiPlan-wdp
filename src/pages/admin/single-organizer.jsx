@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useTitle from "../../hooks/useTitle";
+import { useAppContext } from '../../context/contextProvider';
+import NotFound from '../404';
 
 function SingleOrganizerPage() {
-    const params = useParams();
-    useTitle(`${params.id} | FestiPlan`)
+    const {data} = useAppContext();
+    const {organizerId} = useParams();
+    const organizer = useMemo(() => data.organizers.find(o => o.id === organizerId), [data, organizerId]);
+    useTitle(`${organizer?.name ?? "Not Found"} | FestiPlan`)
+
+    if (!organizer) 
+        return <NotFound url="/admin" />
+
     return (
         <div>
-            <h1>Look at this Organizer!</h1>
-            {params.id && <h2>Organizer ID: {params.id}</h2>}
+            {organizer.name}
         </div>
     );
 }

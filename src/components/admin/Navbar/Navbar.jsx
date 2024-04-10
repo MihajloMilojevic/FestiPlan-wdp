@@ -58,7 +58,7 @@ const Navbar = () => {
     return (
         <nav ref={navRef} className={`${styles.navbar} ${menuActive ? styles.active_menu : ""}`}>
             <div>
-                <Link title="FestiPlan Homepage" to="/" className={styles.block}>
+                <Link title="FestiPlan Homepage" to="/admin" className={styles.block}>
                     <img className={styles.logo} src="/Logo-no-slogan-horizontal.svg" alt="Logo" />
                 </Link>
             </div>

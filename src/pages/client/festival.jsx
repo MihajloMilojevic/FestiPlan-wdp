@@ -25,7 +25,7 @@ function FestivalPage() {
     }, [organizerId, organizer, festivalId]);
     useTitle(`${festival?.name ?? "NotFound"} | FestiPlan`)
     if (!organizer || !festival) 
-        return <NotFound />
+        return <NotFound url="/" />
     return (
         <div>
             <div className={styles.container}>

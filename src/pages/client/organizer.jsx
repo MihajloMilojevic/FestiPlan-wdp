@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import useTitle from "../../hooks/useTitle";
 import { useAppContext } from '../../context/contextProvider';
 import NotFound from '../404';
-import { CardList, FestivalCard, HeroSection } from '../../components/client';
+import { FestivalCard, HeroSection } from '../../components/client';
+import { CardList } from '../../components/common';
 import styles from "../../styles/client/organizer.module.css"
 import { CustomCheckbox, Info, SearchableText } from '../../components/common';
 import {BsFilter} from "@react-icons/all-files/bs/BsFilter"
@@ -42,7 +43,7 @@ function OrganizerPage() {
     }
 
     if (!organizer) 
-        return <NotFound />
+        return <NotFound url="/" />
     return (
         <div>
             <HeroSection imageSrc={organizer.logo}>

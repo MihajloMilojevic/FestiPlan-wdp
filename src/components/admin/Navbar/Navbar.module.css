@@ -1,6 +1,6 @@
 .navbar {
     z-index: 1000;
-    background: var(--color-bg-secondary);
+    background: var(--color-bg-main);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;

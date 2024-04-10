@@ -7,7 +7,9 @@ function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.logo}>
-                <img src="/Logo.svg" alt="Logo" />
+                <Link to="/admin">
+                    <img src="/Logo.svg" alt="Logo" />
+                </Link>
             </div>
             <ul className={styles.list}>
                 <li className={`${styles.link}`}><SearchableText text="Login" /></li>
