@@ -4,11 +4,11 @@ import useTitle from "../../hooks/useTitle";
 import { useAppContext } from '../../context/contextProvider';
 import NotFound from '../404';
 
-function SingleOrganizerPage() {
+function OrganizersFestivalsPage() {
     const {data} = useAppContext();
     const {organizerId} = useParams();
     const organizer = useMemo(() => data.organizers.find(o => o.id === organizerId), [data, organizerId]);
-    useTitle(`${organizer?.name ?? "Not Found"} | FestiPlan`)
+    useTitle(`${organizer?.name + "'s Festivals" ?? "Not Found"} | FestiPlan`)
 
     if (!organizer) 
         return <NotFound url="/admin" />
@@ -20,4 +20,4 @@ function SingleOrganizerPage() {
     );
 }
 
-export default SingleOrganizerPage;
+export default OrganizersFestivalsPage;

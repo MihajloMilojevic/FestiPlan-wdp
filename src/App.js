@@ -20,9 +20,7 @@ function App() {
                     <Route path='/admin' element={<AdminComponents.Layout />}>
                         <Route path="/admin"  element={<Navigate replace to="/admin/organizers"/>} />
                         <Route path="/admin/organizers" element={<AdminPages.OrganizersPage />} />
-                        <Route path="/admin/organizers/:organizerId" element={<AdminPages.SingleOrganizerPage />} />
-                        <Route path="/admin/organizers/:organizerId/festivals/:festivalId" element={<AdminPages.SingleFestivalPage />} />
-                        <Route path="/admin/festivals/create-festival" element={<AdminPages.CreateFestivalPage />} />
+                        <Route path="/admin/organizers/:organizerId/festivals" element={<AdminPages.OrganizersFestivalsPage />} />
                         <Route path="/admin/users" element={<AdminPages.UsersPage />} />
                         <Route path="/admin/error" element={<ErrorPage url="/admin" />} />
                         <Route path="/admin/*" element={<Error404 url="/admin" />} />

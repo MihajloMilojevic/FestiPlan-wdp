@@ -5,8 +5,6 @@ import { useAppContext } from '../../context/contextProvider';
 import {GiTrashCan} from "@react-icons/all-files/gi/GiTrashCan"
 import {GiPencil} from "@react-icons/all-files/gi/GiPencil"
 import toast from "react-hot-toast";
-import {IoEyeOutline} from "@react-icons/all-files/io5/IoEyeOutline";
-import {IoEyeOffOutline} from "@react-icons/all-files/io5/IoEyeOffOutline";
 import { User } from "../../models";
 
 function UsersPage() {
@@ -52,8 +50,7 @@ function UsersPage() {
                             <th>Address</th>
                             <th>Phone</th>
                             <th>Profession</th>
-                            <th></th>
-                            <th></th>
+                            <th colSpan={2}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -166,7 +163,7 @@ function EditUserModal({user, onConfirm}) {
         const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         setFormData({...formData, [name]: {value, error: !emailRegex.test(value)}});
     }
-    console.log({user, formData})
+
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
             <h2>Edit user {currentStep+1}/2</h2>
