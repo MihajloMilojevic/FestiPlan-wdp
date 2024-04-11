@@ -6,53 +6,66 @@ import {GiTrashCan} from "@react-icons/all-files/gi/GiTrashCan"
 import {GiPencil} from "@react-icons/all-files/gi/GiPencil"
 import {GrAdd} from "@react-icons/all-files/gr/GrAdd"
 import toast from "react-hot-toast";
-import { User } from "../../models";
+import { Organizer, User } from "../../models";
 import { Link } from 'react-router-dom';
+import { SearchableText } from '../../components/common';
+import validateImageUrl from '../../utils/validateImageUrl';
 
 function OrganizersPage() {
-    useTitle(`Users | FestiPlan`)
+    useTitle(`Organizers | FestiPlan`)
     const {data, setData, modal} = useAppContext();
 
-    async function deleteUser(user) {
-        setData({...data, users: data.users.filter(u => u.id !== user.id)})
+    async function deleteOrganizer(organizer) {
+        setData({...data, organizers: data.organizers.filter(o => o.id !== organizer.id)})
     }
 
-    function handleDelete(user) {
-        // modal.open(
-        //     <ConfirmDeleteModal user={user} onConfirm={deleteUser} />
-        // )
+    function handleDelete(organizer) {
+        modal.open(
+            <ConfirmDeleteModal organizer={organizer} onConfirm={deleteOrganizer} />
+        )
     }
 
-    async function editUser(newUser) {
-        const copy = [...data.users];
-        const index = copy.findIndex(u => u.id === newUser.id);
-        copy[index] = newUser;
-        setData({...data, users: copy});
+    async function editOrganizer(newOrganizer) {
+        const copy = [...data.organizers];
+        const index = copy.findIndex(o => o.id === newOrganizer.id);
+        copy[index] = newOrganizer;
+        setData({...data, organizers: copy});
     }
 
-    function handleEdit(user) {
-        // modal.open(
-        //     <EditUserModal user={user} onConfirm={editUser} />,
-        //     {contentWrapperClassName: styles.wrapper    }
-        // )
+    function handleEdit(organizer) {
+        modal.open(
+            <OrganizerDataModal organizer={organizer} onConfirm={editOrganizer} />,
+            {contentWrapperClassName: styles.wrapper    }
+        )
+    }
+
+    async function createOrganizer(newOrganizer) {
+        setData({...data, organizers: [...data.organizers, newOrganizer]})
+    }
+
+    function handleCreate() {
+        modal.open(
+            <OrganizerDataModal onConfirm={createOrganizer} />,
+            {contentWrapperClassName: styles.wrapper}
+        )
     }
 
     return (
         <>
-            <h1>All festival organizers</h1>
-            <button style={{maxWidth: 100}} className={styles.action_button}><GrAdd /> New </button>
+            <h1><SearchableText text="All festival organizers" /></h1>
+            <button onClick={handleCreate} style={{maxWidth: 100}} className={styles.action_button}><GrAdd /> <SearchableText text="New" /> </button>
             <div className={styles.table_wrapper}>
                 <table className={styles.table}>
                     <thead>
                         <tr>
-                            <th>Logo</th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Email</th>
-                            <th>Year</th>
-                            <th>Festivals</th>
-                            <th colSpan={2}>Actions</th>
+                            <th><SearchableText text="Logo" /></th>
+                            <th><SearchableText text="Name" /></th>
+                            <th><SearchableText text="Address" /></th>
+                            <th><SearchableText text="Phone" /></th>
+                            <th><SearchableText text="Email" /></th>
+                            <th><SearchableText text="Year" /></th>
+                            <th><SearchableText text="Festivals" /></th>
+                            <th colSpan={2}><SearchableText text="Actions" /></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,17 +78,17 @@ function OrganizersPage() {
                                                 <img src={organizer.logo} alt={organizer.name} />
                                             </div>
                                         </td>
-                                        <td>{organizer.name}</td>
-                                        <td>{organizer.address}</td>
-                                        <td>{organizer.contactPhone}</td>
-                                        <td>{organizer.email}</td>
-                                        <td>{organizer.yearOfEstablishment}</td>
-                                        <td><Link to={`/admin/organizers/${organizer.id}/festivals`}>{organizer.festivals.length} Festivals</Link></td>
+                                        <td><SearchableText text={organizer.name} /></td>
+                                        <td><SearchableText text={organizer.address} /></td>
+                                        <td><SearchableText text={organizer.contactPhone} /></td>
+                                        <td><SearchableText text={organizer.email} /></td>
+                                        <td><SearchableText text={organizer.yearOfEstablishment} /></td>
+                                        <td><Link to={`/admin/organizers/${organizer.id}/festivals`}><SearchableText text={`${organizer.festivals.length} Festivals`} /></Link></td>
                                         <td>
                                             <div className={styles.action_button} onClick={() => handleEdit(organizer)}>
                                                 <GiPencil size={20} />
                                                 <span>
-                                                    Edit    
+                                                    <SearchableText text="Edit" />
                                                 </span>
                                             </div>
                                         </td>
@@ -83,7 +96,7 @@ function OrganizersPage() {
                                             <div className={styles.action_button} onClick={() => handleDelete(organizer)}>
                                                 <GiTrashCan size={20} />
                                                 <span>
-                                                    Delete    
+                                                    <SearchableText text="Delete" />
                                                 </span>
                                             </div>
                                         </td>
@@ -101,15 +114,15 @@ function OrganizersPage() {
 export default OrganizersPage;
 
 
-function ConfirmDeleteModal({user, onConfirm}) {
+function ConfirmDeleteModal({organizer, onConfirm}) {
     const {modal} = useAppContext()
     function handleDelete() {
-        onConfirm(user)
+        onConfirm(organizer)
         modal.close()
     }
     return (
         <div>
-            <h2>Are you sure you want to delete {user.name} {user.surname}?</h2>
+            <h2>Are you sure you want to delete {organizer.name}?</h2>
             <div className={styles.buttons} style={{marginTop: "0.75rem"}}>
                 <div>
                     <button type='submit' onClick={handleDelete}>Yes</button>
@@ -119,32 +132,48 @@ function ConfirmDeleteModal({user, onConfirm}) {
         </div>
     )
 }
+function getInitialFormData(organizer) {
+    if(organizer) return {
+        name: {value: organizer.name, error: false},
+        address: {value: organizer.address, error: false},
+        contactPhone: {value: organizer.contactPhone, error: false},
+        email: {value: organizer.email, error: false},
+        yearOfEstablishment: {value: organizer.yearOfEstablishment, error: false},
+        logo: {value: organizer.logo, error: false},
+    }
+    return {
+        name: {value: "", error: null},
+        address: {value: "", error: null},
+        contactPhone: {value: "", error: null},
+        email: {value: "", error: null},
+        yearOfEstablishment: {value: "", error: null},
+        logo: {value: "", error: null},
+    }
+}
 
-function EditUserModal({user, onConfirm}) {
+function OrganizerDataModal({organizer, onConfirm}) {
     const {modal} = useAppContext()
     const [currentStep, setCurrentStep] = useState(0)
-    const [formData, setFormData] = useState({
-        name: { value: user.name, error: false}, 
-        surname: { value: user.surname, error: false}, 
-        email: { value: user.email, error: false}, 
-        username: { value: user.username, error: false},  
-        address: { value: user.address, error: false}, 
-        profession: { value: user.profession, error: false}, 
-        phone: { value: user.phone, error: false}, 
-        birthday: { value: user.dateOfBirth, error: false }
-    })
+    const [formData, setFormData] = useState(getInitialFormData(organizer))
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         if(
-            (formData.name.error || formData.surname.error || formData.email.error || formData.username.error) || 
-            (formData.address.error || formData.profession.error || formData.phone.error || formData.birthday.error) 
+            formData.name.error == null || formData.address.error == null || formData.contactPhone.error == null || 
+            formData.email.error == null || formData.yearOfEstablishment.error == null || formData.logo.error == null ||
+            formData.name.error || formData.address.error || formData.contactPhone.error || 
+            formData.email.error || formData.yearOfEstablishment.error || formData.logo.error
         ) {
             toast.error("Please fill in all required fields.");
             return;
         }
-        const newUser = new User(user.id, formData.username.value, user.password, formData.name.value, formData.surname.value, formData.email.value, formData.birthday.value, formData.address.value, formData.phone.value, formData.profession.value);
-        onConfirm(newUser);
+        const isImageValid = await validateImageUrl(formData.logo.value);
+        if(!isImageValid) {
+            toast.error("Invalid image url.");
+            return;
+        }
+        const newOrganizer = new Organizer(organizer ? organizer.id : Math.random().toString(), formData.name.value, formData.address.value, formData.yearOfEstablishment.value, formData.logo.value, formData.contactPhone.value, formData.email.value, organizer ? organizer.festivals : []);
+        onConfirm(newOrganizer);
         modal.close()
     }
 
@@ -169,7 +198,7 @@ function EditUserModal({user, onConfirm}) {
     }
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
-            <h2>Edit user {currentStep+1}/2</h2>
+            <h2>{organizer ? "Edit" : "Create"} organizer {currentStep+1}/2</h2>
             <div style={{
                 position: "relative",
                 overflowX: "hidden",
@@ -197,15 +226,15 @@ function EditUserModal({user, onConfirm}) {
                         />
                     </div>
                     <div>
-                        <label htmlFor="surname">Surname:</label>
+                        <label htmlFor="address">Address:</label>
                         <input 
                             style={{
-                                border: (formData.surname.error != null ? 
-                                    `2px solid ${(formData.surname.error ? "red" : "green")}` : 
+                                border: (formData.address.error != null ? 
+                                    `2px solid ${(formData.address.error ? "red" : "green")}` : 
                                     "none")
                             }}
-                            type="text" id="surname" name="surname" 
-                            value={formData.surname.value} onChange={handleOnlyRequiredChange} 
+                            type="text" id="address" name="address"
+                            value={formData.address.value} onChange={handleOnlyRequiredChange}
                         />
                     </div>
                     <div>
@@ -221,15 +250,27 @@ function EditUserModal({user, onConfirm}) {
                         />
                     </div>
                     <div>
-                        <label htmlFor="username">Username:</label>
+                        <label htmlFor="contactPhone">Phone:</label>
                         <input 
                             style={{
-                                border: (formData.username.error != null ? 
-                                    `2px solid ${(formData.username.error ? "red" : "green")}` : 
+                                border: (formData.contactPhone.error != null ? 
+                                    `2px solid ${(formData.contactPhone.error ? "red" : "green")}` : 
                                     "none")
                             }}
-                            type="text" id="username" name="username"
-                            value={formData.username.value} onChange={handleOnlyRequiredChange}
+                            type="tel" id="contactPhone" name="contactPhone" 
+                            value={formData.contactPhone.value} onChange={handleOnlyRequiredChange}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="yearOfEstablishment">Year of Establishment:</label>
+                        <input 
+                            style={{
+                                border: (formData.yearOfEstablishment.error != null ? 
+                                    `2px solid ${(formData.yearOfEstablishment.error ? "red" : "green")}` : 
+                                    "none")
+                            }}
+                            type="number" id="yearOfEstablishment" name="yearOfEstablishment" 
+                            value={formData.yearOfEstablishment.value} onChange={handleOnlyRequiredChange}
                         />
                     </div>
                 </div>
@@ -241,52 +282,19 @@ function EditUserModal({user, onConfirm}) {
                     top: "50%"
                 }}>
                     <div>
-                        <label htmlFor="address">Address:</label>
+                        <label htmlFor="logo">Logo:</label>
                         <input 
                             style={{
-                                border: (formData.address.error != null ? 
-                                    `2px solid ${(formData.address.error ? "red" : "green")}` : 
+                                border: (formData.logo.error != null ? 
+                                    `2px solid ${(formData.logo.error ? "red" : "green")}` : 
                                     "none")
                             }}
-                            type="text" id="address" name="address"
-                            value={formData.address.value} onChange={handleOnlyRequiredChange}
+                            type="text" id="logo" name="logo"
+                            value={formData.logo.value} onChange={handleOnlyRequiredChange}
                         />
                     </div>
-                    <div>
-                        <label htmlFor="profession">Profession:</label>
-                        <input 
-                            style={{
-                                border: (formData.profession.error != null ? 
-                                    `2px solid ${(formData.profession.error ? "red" : "green")}` : 
-                                    "none")
-                            }}
-                            type="text" id="profession" name="profession"
-                            value={formData.profession.value} onChange={handleOnlyRequiredChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="phone">Phone:</label>
-                        <input 
-                            style={{
-                                border: (formData.phone.error != null ? 
-                                    `2px solid ${(formData.phone.error ? "red" : "green")}` : 
-                                    "none")
-                            }}
-                            type="tel" id="phone" name="phone" 
-                            value={formData.phone.value} onChange={handleOnlyRequiredChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="birthday">Date of birth:</label>
-                        <input 
-                            style={{
-                                border: (formData.birthday.error != null ? 
-                                    `2px solid ${(formData.birthday.error ? "red" : "green")}` : 
-                                    "none")
-                            }}
-                            type="date" id="birthday" name="birthday"
-                            value={formData.birthday.value} onChange={handleOnlyRequiredChange}
-                        />
+                    <div className={styles.form_logo}>
+                        <img src={formData.logo.error || formData.logo.error == null ? "/no-image.svg" : formData.logo.value} alt="Invalid url" />
                     </div>
                 </div>
             </div>

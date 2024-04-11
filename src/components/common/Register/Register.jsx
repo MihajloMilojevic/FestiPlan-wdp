@@ -11,7 +11,7 @@ const initialFormData = {
 };
 
 export default function Register() {
-    const {modal, data, setUser} = useAppContext()
+    const {modal, data, setUser, setData} = useAppContext()
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [allowSubmit, setAllowSubmit] = useState(false)
@@ -54,6 +54,7 @@ export default function Register() {
         }
         const newUser = new User("", formData.username.value, formData.password.value, formData.name.value, formData.surname.value, formData.email.value, formData.birthday.value, formData.address.value, formData.phone.value, formData.profession.value);
         setUser(newUser);
+        setData({...data, users: [...data.users, newUser]})
         toast.success(`Successfully registered as ${newUser.name} ${newUser.surname}!\n Welcome!`);
         modal.close();
     }

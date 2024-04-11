@@ -33,6 +33,5 @@
 @media screen and (max-width: 768px) {
     .tabs {
         padding: 1rem 0.5rem 0 0.5rem;
-        gap: 0.5rem;
     }
 }

@@ -6,6 +6,7 @@ import {GiTrashCan} from "@react-icons/all-files/gi/GiTrashCan"
 import {GiPencil} from "@react-icons/all-files/gi/GiPencil"
 import toast from "react-hot-toast";
 import { User } from "../../models";
+import { SearchableText } from '../../components/common';
 
 function UsersPage() {
     useTitle(`Users | FestiPlan`)
@@ -37,20 +38,20 @@ function UsersPage() {
 
     return (
         <>
-            <h1>All registered users</h1>
+            <h1><SearchableText text="All registered users" /></h1>
             <div className={styles.table_wrapper}>
                 <table className={styles.table}>
                     <thead>
                         <tr>
-                            <th>Username</th>
-                            <th>Name</th>
-                            <th>Surname</th>
-                            <th>Email</th>
-                            <th>Birthday</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Profession</th>
-                            <th colSpan={2}>Actions</th>
+                            <th><SearchableText text="Username" /></th>
+                            <th><SearchableText text="Name" /></th>
+                            <th><SearchableText text="Surname" /></th>
+                            <th><SearchableText text="Email" /></th>
+                            <th><SearchableText text="Birthday" /></th>
+                            <th><SearchableText text="Address" /></th>
+                            <th><SearchableText text="Phone" /></th>
+                            <th><SearchableText text="Profession" /></th>
+                            <th colSpan={2}><SearchableText text="Actions" /></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,19 +60,19 @@ function UsersPage() {
                                 const date = new Date(user.dateOfBirth);
                                 return (
                                     <tr key={user.id}>
-                                        <td>{user.username}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.surname}</td>
-                                        <td>{user.email}</td>
-                                        <td>{date.getDate()}.{date.getMonth()+1}.{date.getFullYear()}</td>
-                                        <td>{user.address}</td>
-                                        <td>{user.phone}</td>
-                                        <td>{user.profession}</td>
+                                        <td><SearchableText text={user.username} /></td>
+                                        <td><SearchableText text={user.name} /></td>
+                                        <td><SearchableText text={user.surname} /></td>
+                                        <td><SearchableText text={user.email} /></td>
+                                        <td><SearchableText text={`${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`} /></td>
+                                        <td><SearchableText text={user.address} /></td>
+                                        <td><SearchableText text={user.phone} /></td>
+                                        <td><SearchableText text={user.profession} /></td>
                                         <td>
                                             <div className={styles.action_button} onClick={() => handleEdit(user)}>
                                                 <GiPencil size={20} />
                                                 <span>
-                                                    Edit    
+                                                    <SearchableText text="Edit" />
                                                 </span>
                                             </div>
                                         </td>
@@ -79,7 +80,7 @@ function UsersPage() {
                                             <div className={styles.action_button} onClick={() => handleDelete(user)}>
                                                 <GiTrashCan size={20} />
                                                 <span>
-                                                    Delete    
+                                                    <SearchableText text="Delete" />
                                                 </span>
                                             </div>
                                         </td>
