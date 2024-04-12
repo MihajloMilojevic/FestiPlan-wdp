@@ -2,7 +2,7 @@ import * as Models from "../models";
 import json_data from "../data/organizatori_festivala_engleski.json";
 
 export default class APIs {
-    static baseurl = "https://festiplan-wd-default-rtdb.europe-west1.firebasedatabase.app"
+    static baseurl = "https://festiplan-wd-project-default-rtdb.europe-west1.firebasedatabase.app/"
     static parseData(data) {
         const result = {
             organizers: [],
