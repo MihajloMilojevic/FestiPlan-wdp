@@ -180,7 +180,8 @@ function OrganizerDataModal({organizer, onConfirm}) {
             formData.logo.value, 
             formData.contactPhone.value, 
             formData.email.value, 
-            organizer ? organizer.festivals : []
+            organizer ? organizer.festivals : [],
+            organizer ? organizer.festivalsId : null
         );
         onConfirm(newOrganizer);
         modal.close()

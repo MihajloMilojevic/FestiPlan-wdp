@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import {IoEyeOutline} from "@react-icons/all-files/io5/IoEyeOutline";
 import {IoEyeOffOutline} from "@react-icons/all-files/io5/IoEyeOffOutline";
 import { User } from "../../../models";
+import APIs from "../../../api/API";
 
 const initialFormData = {
     name: { value: "", error: null}, surname: { value: "", error: null}, email: { value: "", error: null}, username: { value: "", error: null}, password: { value: "", error: null}, confirm: { value: "", error: null}, address: { value: "", error: null}, profession: { value: "", error: null}, phone: { value: "", error: null}, birthday: { value: "", error: null }
@@ -18,7 +19,7 @@ export default function Register() {
     const [currentStep, setCurrentStep] = useState(0)
     const [formData, setFormData] = useState(initialFormData)
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         if(!allowSubmit) return;
         if(
@@ -53,7 +54,14 @@ export default function Register() {
             return;
         }
         const newUser = new User("", formData.username.value, formData.password.value, formData.name.value, formData.surname.value, formData.email.value, formData.birthday.value, formData.address.value, formData.phone.value, formData.profession.value);
+        const {data: {name}, error} = await APIs.createUser(newUser);
+        if(error) {
+            toast.error("Failed to register user.");
+            return;
+        }
+        newUser.id = name;
         setUser(newUser);
+        console.log({data})
         setData({...data, users: [...data.users, newUser]})
         toast.success(`Successfully registered as ${newUser.name} ${newUser.surname}!\n Welcome!`);
         modal.close();

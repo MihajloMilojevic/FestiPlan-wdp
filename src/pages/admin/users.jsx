@@ -7,12 +7,19 @@ import {GiPencil} from "@react-icons/all-files/gi/GiPencil"
 import toast from "react-hot-toast";
 import { User } from "../../models";
 import { SearchableText } from '../../components/common';
+import APIs from '../../api/API';
 
 function UsersPage() {
     useTitle(`Users | FestiPlan`)
     const {data, setData, modal} = useAppContext();
 
     async function deleteUser(user) {
+        const deleted = await APIs.deleteUser(user.id);
+        if (!deleted) {
+            toast.error("Failed to delete user.");
+            return;
+        }
+        toast.success("User deleted successfully.");
         setData({...data, users: data.users.filter(u => u.id !== user.id)})
     }
 
@@ -23,6 +30,12 @@ function UsersPage() {
     }
 
     async function editUser(newUser) {
+        const updated = await APIs.updateUser(newUser);
+        if (!updated) {
+            toast.error("Failed to update user.");
+            return;
+        }
+        toast.success("User updated successfully.");
         const copy = [...data.users];
         const index = copy.findIndex(u => u.id === newUser.id);
         copy[index] = newUser;

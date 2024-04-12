@@ -34,7 +34,8 @@ export default class APIs {
                     organizer.logo, 
                     organizer.contactPhone, 
                     organizer.email, 
-                    festivals
+                    festivals,
+                    organizer.festivals
                 ));
         }
         for (const userId in data.users) {
@@ -83,6 +84,62 @@ export default class APIs {
         }
         catch(error) {
             console.error("API.resetData", error);
+            return {data: null, error: error};
+        }
+    }
+    static async deleteUser(userId) {
+        try {
+            const response = await fetch(`${APIs.baseurl}/data/users/${userId}.json`, {
+                method: "DELETE"
+            });
+            if (!response.ok) {
+                console.error("API.deleteUser", response);
+                return false;
+            }
+            return true;
+        }
+        catch(error) {
+            console.error("API.deleteUser", error);
+            return false;
+        }
+    }
+    static async updateUser(user) {
+        try {
+            const response = await fetch(`${APIs.baseurl}/data/users/${user.id}.json`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(user.toDb())
+            });
+            if (!response.ok) {
+                console.error("API.updateUser", response);
+                return false;
+            }
+            return true;
+        }
+        catch(error) {
+            console.error("API.updateUser", error);
+            return false;
+        }
+    }
+    static async createUser(user) {
+        try {
+            const response = await fetch(`${APIs.baseurl}/data/users.json`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(user.toDb())
+            });
+            if (!response.ok) {
+                console.error("API.createUser", response);
+                return {data: null, error: response};
+            }
+            return {data: await response.json(), error: null};
+        }
+        catch(error) {
+            console.error("API.createUser", error);
             return {data: null, error: error};
         }
     }

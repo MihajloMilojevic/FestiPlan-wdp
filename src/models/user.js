@@ -11,4 +11,17 @@ export default class User {
         this.phone = phone;
         this.profession = profession;
     }
+    toDb() {
+        return {
+            username: this.username,
+            password: this.password,
+            name: this.name,
+            surname: this.surname,
+            email: this.email,
+            dateOfBirth: this.dateOfBirth,
+            address: this.address,
+            phone: this.phone,
+            profession: this.profession
+        }
+    }
 }
