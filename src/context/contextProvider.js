@@ -4,6 +4,7 @@ import static_data from "../organizatori_festivala_engleski.json"
 import { Modal } from "../components/common";
 import { User } from "../models";
 import { Toaster } from 'react-hot-toast';
+import { createPortal } from "react-dom";
 
 const AppContext = createContext();
 
@@ -62,14 +63,17 @@ export default function AppContextProvider({children }) {
 		>	
 			
 			{children}
-			<Modal 
-				isOpen={isModalOpen} 
-				useDefaultStyles={modalUseDefaultStyles}
-				contentWrapperStyles={modalContentWrapperStyles}
-				contentWrapperClassName={modalContentWrapperClassName}
-			>
-				{modalContent}
-			</Modal>
+			{createPortal(
+				<Modal 
+					isOpen={isModalOpen} 
+					useDefaultStyles={modalUseDefaultStyles}
+					contentWrapperStyles={modalContentWrapperStyles}
+					contentWrapperClassName={modalContentWrapperClassName}
+				>
+					{modalContent}
+				</Modal>,
+				document.body
+			)}
 			<Toaster
 				containerStyle={{
 					zIndex: 99999999

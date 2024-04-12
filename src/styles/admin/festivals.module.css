@@ -255,7 +255,7 @@
 }
 
 .wrapper {
-    min-width: 40%;
+    min-width: 50%;
     min-height: 90%;
     max-height: 100%;
     display: flex;
