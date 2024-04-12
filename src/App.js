@@ -13,8 +13,8 @@ import { ScrollToTopRouter } from './components/common';
 
 function App() {
     return (
-        <AppContextProvider>
-            <BrowserRouter>
+        <BrowserRouter>
+            <AppContextProvider>
                 <ScrollToTopRouter />
                 <Routes >
                     <Route path='/admin' element={<AdminComponents.Layout />}>
@@ -33,8 +33,8 @@ function App() {
                         <Route path="*" element={<Error404 url="/" />} />
                     </Route>
                 </Routes>
-            </BrowserRouter>
-        </AppContextProvider>
+            </AppContextProvider>
+        </BrowserRouter>
     );
 }
 
