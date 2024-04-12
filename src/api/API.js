@@ -3,6 +3,7 @@ import json_data from "../data/organizatori_festivala_engleski.json";
 
 export default class APIs {
     static baseurl = "https://festiplan-wd-project-default-rtdb.europe-west1.firebasedatabase.app/"
+    //////////////////////////////   DATA   //////////////////////////////
     static parseData(data) {
         const result = {
             organizers: [],
@@ -87,6 +88,7 @@ export default class APIs {
             return {data: null, error: error};
         }
     }
+    //////////////////////////////   USERS   //////////////////////////////
     static async deleteUser(userId) {
         try {
             const response = await fetch(`${APIs.baseurl}/data/users/${userId}.json`, {
@@ -143,4 +145,143 @@ export default class APIs {
             return {data: null, error: error};
         }
     }
+    //////////////////////////////   ORGANIZERS   //////////////////////////////
+    static async deleteOrganizer(organizerId) {
+        try {
+            const response = await fetch(`${APIs.baseurl}/data/festivalOrganizers/${organizerId}.json`, {
+                method: "DELETE"
+            });
+            if (!response.ok) {
+                console.error("API.deleteOrganizer", response);
+                return false;
+            }
+            return true;
+        }
+        catch(error) {
+            console.error("API.deleteOrganizer", error);
+            return false;
+        }
+    }
+    static async updateOrganizer(organizer) {
+        try {
+            const response = await fetch(`${APIs.baseurl}/data/festivalOrganizers/${organizer.id}.json`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(organizer.toDb())
+            });
+            if (!response.ok) {
+                console.error("API.updateOrganizer", response);
+                return false;
+            }
+            return true;
+        }
+        catch(error) {
+            console.error("API.updateOrganizer", error);
+            return false;
+        }
+    }
+    static async createOrganizerFestivals() {
+        try {
+            const response = await fetch(`${APIs.baseurl}/data.json`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: "{}"
+            });
+            if (!response.ok) {
+                console.error("API.createOrganizerFestivals", response);
+                return {data: null, error: response};
+            }
+            return {data: await response.json(), error: null};
+        }
+        catch(error) {
+            console.error("API.createOrganizerFestivals", error);
+            return {data: null, error: error};
+        }
+    }
+    static async createOrganizer(organizer) {
+        try {
+            const festivalObj = await APIs.createOrganizerFestivals();
+            if (festivalObj.error) {
+                return festivalObj;
+            }
+            organizer.festivalsId = festivalObj.data.name;
+            const response = await fetch(`${APIs.baseurl}/data/festivalOrganizers.json`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(organizer.toDb())
+            });
+            if (!response.ok) {
+                console.error("API.createOrganizer", response);
+                return {data: null, error: response};
+            }
+            return {data: await response.json(), error: null};
+        }
+        catch(error) {
+            console.error("API.createOrganizer", error);
+            return {data: null, error: error};
+        }
+    }
+    //////////////////////////////   FESTIVALS   //////////////////////////////
+    static async deleteFestival(organizerFestivalsId, festivalId) {
+        try {
+            const response = await fetch(`${APIs.baseurl}/data/${organizerFestivalsId}/${festivalId}.json`, {
+                method: "DELETE"
+            });
+            if (!response.ok) {
+                console.error("API.deleteFestival", response);
+                return false;
+            }
+            return true;
+        }
+        catch(error) {
+            console.error("API.deleteFestival", error);
+            return false;
+        }
+    }
+    static async updateFestival(organizerFestivalsId, festival) {
+        try {
+            const response = await fetch(`${APIs.baseurl}/data/${organizerFestivalsId}/${festival.id}.json`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(festival.toDb())
+            });
+            if (!response.ok) {
+                console.error("API.updateFestival", response);
+                return false;
+            }
+            return true;
+        }
+        catch(error) {
+            console.error("API.updateFestival", error);
+            return false;
+        }
+    }
+    static async createFestival(organizerFestivalsId, festival) {
+        try {
+            const response = await fetch(`${APIs.baseurl}/data/${organizerFestivalsId}.json`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(festival.toDb())
+            });
+            if (!response.ok) {
+                console.error("API.createFestival", response);
+                return {data: null, error: response};
+            }
+            return {data: await response.json(), error: null};
+        }
+        catch(error) {
+            console.error("API.createFestival", error);
+            return {data: null, error: error};
+        }
+    }  
 }

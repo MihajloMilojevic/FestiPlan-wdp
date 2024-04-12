@@ -54,14 +54,13 @@ export default function Register() {
             return;
         }
         const newUser = new User("", formData.username.value, formData.password.value, formData.name.value, formData.surname.value, formData.email.value, formData.birthday.value, formData.address.value, formData.phone.value, formData.profession.value);
-        const {data: {name}, error} = await APIs.createUser(newUser);
+        const {data: createdData, error} = await APIs.createUser(newUser);
         if(error) {
             toast.error("Failed to register user.");
             return;
         }
-        newUser.id = name;
+        newUser.id = createdData.name;
         setUser(newUser);
-        console.log({data})
         setData({...data, users: [...data.users, newUser]})
         toast.success(`Successfully registered as ${newUser.name} ${newUser.surname}!\n Welcome!`);
         modal.close();

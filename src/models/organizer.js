@@ -10,4 +10,15 @@ export default class Organizer {
         this.festivals = festivals;
         this.festivalsId = festivalsId;
     }
+    toDb() {
+        return {
+            name: this.name,
+            address: this.address,
+            yearOfEstablishment: this.yearOfEstablishment,
+            logo: this.logo,
+            contactPhone: this.contactPhone,
+            email: this.email,
+            festivals: this.festivalsId
+        };
+    }
 }

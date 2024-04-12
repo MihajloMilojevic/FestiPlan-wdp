@@ -9,6 +9,17 @@ export default class Festival {
         this.price = price;
         this.maxPerson = maxPerson;
     }
+    toDb() {
+        return {
+            name: this.name,
+            description: this.description,
+            images: this.images,
+            type: this.type,
+            transportation: this.transportation,
+            price: this.price,
+            maxPerson: this.maxPerson
+        };
+    }
 }
 
 export class FestivalTypes {

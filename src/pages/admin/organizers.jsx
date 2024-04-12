@@ -10,12 +10,19 @@ import { Organizer, User } from "../../models";
 import { Link } from 'react-router-dom';
 import { SearchableText } from '../../components/common';
 import validateImageUrl from '../../utils/validateImageUrl';
+import APIs from '../../api/API';
 
 function OrganizersPage() {
     useTitle(`Organizers | FestiPlan`)
     const {data, setData, modal} = useAppContext();
 
     async function deleteOrganizer(organizer) {
+        const deleted = await APIs.deleteOrganizer(organizer.id);
+        if(!deleted) {
+            toast.error("Failed to delete organizer.");
+            return;
+        }
+        toast.success("Organizer deleted successfully.");
         setData({...data, organizers: data.organizers.filter(o => o.id !== organizer.id)})
     }
 
@@ -26,6 +33,12 @@ function OrganizersPage() {
     }
 
     async function editOrganizer(newOrganizer) {
+        const updated = await APIs.updateOrganizer(newOrganizer);
+        if(!updated) {
+            toast.error("Failed to update organizer.");
+            return;
+        }
+        toast.success("Organizer updated successfully.");
         const copy = [...data.organizers];
         const index = copy.findIndex(o => o.id === newOrganizer.id);
         copy[index] = newOrganizer;
@@ -40,6 +53,13 @@ function OrganizersPage() {
     }
 
     async function createOrganizer(newOrganizer) {
+        const {data: createdData, error} = await APIs.createOrganizer(newOrganizer);
+        if(error) {
+            toast.error("Failed to create organizer.");
+            return;
+        }
+        toast.success("Organizer created successfully.");
+        newOrganizer.festivalsId = createdData.name;
         setData({...data, organizers: [...data.organizers, newOrganizer]})
     }
 

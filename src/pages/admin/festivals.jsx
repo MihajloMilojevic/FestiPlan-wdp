@@ -20,6 +20,7 @@ import {HiOutlineUserGroup} from "@react-icons/all-files/hi/HiOutlineUserGroup"
 import Festival, { FestivalTransportations, FestivalTypes } from '../../models/festival';
 import styles from "../../styles/admin/festivals.module.css"
 import useWindowSize from '../../hooks/useWindowSize';
+import APIs from '../../api/API';
 
 export default function OrganizersFestivalsPage() {
     const {data, setData, modal} = useAppContext();
@@ -31,6 +32,12 @@ export default function OrganizersFestivalsPage() {
         return <NotFound url="/admin" />
 
     async function deleteFestival(festival) {
+        const deleted = await APIs.deleteFestival(organizer.festivalsId, festival.id);
+        if(!deleted) {
+            toast.error("Failed to delete festival. Please try again later.");
+            return;
+        }
+        toast.success("Festival deleted successfully.");
         organizer.festivals = organizer.festivals.filter(f => f.id !== festival.id);
         const copy = [...data.organizers];
         const index = copy.findIndex(o => o.id === organizer.id);
@@ -45,6 +52,12 @@ export default function OrganizersFestivalsPage() {
     }
 
     async function editFestival(newFestival) {
+        const updated = await APIs.updateFestival(organizer.festivalsId, newFestival);
+        if(!updated) {
+            toast.error("Failed to update festival. Please try again later.");
+            return;
+        }
+        toast.success("Festival updated successfully.");
         const festivalsCopy = [...organizer.festivals];
         const festivalIndex = festivalsCopy.findIndex(f => f.id === newFestival.id);
         festivalsCopy[festivalIndex] = newFestival;
@@ -63,6 +76,12 @@ export default function OrganizersFestivalsPage() {
     }
 
     async function createFestival(newFestival) {
+        const {data: createdData, error} = await APIs.createFestival(organizer.festivalsId, newFestival);
+        if(error) {
+            toast.error("Failed to create festival. Please try again later.");
+            return;
+        }
+        newFestival.id = createdData.name;
         organizer.festivals.push(newFestival);
         const copy = [...data.organizers];
         const index = copy.findIndex(o => o.id === organizer.id);
