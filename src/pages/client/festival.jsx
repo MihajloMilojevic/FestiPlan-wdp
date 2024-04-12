@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import useTitle from "../../hooks/useTitle";
 import { Link, useParams } from 'react-router-dom';
-import {HeroSection, CardList, OrganizerCard, FestivalTypeIcon, FestivalTransportationIcon} from '../../components/client';
+import {FestivalTypeIcon, FestivalTransportationIcon} from '../../components/common';
 import NotFound from '../404';
 import { useAppContext } from '../../context/contextProvider';
 import styles from "../../styles/client/festival.module.css";

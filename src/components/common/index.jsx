@@ -8,3 +8,6 @@ export {default as Register} from "./Register/Register"
 export {registerWrapperClassName} from "./Register/Register"
 export {default as CustomCheckbox} from "./CustomCheckbox/CustomCheckbox"
 export {default as CardList} from "../common/CardList/CardList";
+
+export {default as FestivalTypeIcon} from "./FestivalTypeIcon/FestivalTypeIcon"
+export {default as FestivalTransportationIcon} from "./FestivalTransportationIcon/FestivalTransportationIcon"

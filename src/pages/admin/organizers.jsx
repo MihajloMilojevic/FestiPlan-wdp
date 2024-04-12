@@ -172,7 +172,16 @@ function OrganizerDataModal({organizer, onConfirm}) {
             toast.error("Invalid image url.");
             return;
         }
-        const newOrganizer = new Organizer(organizer ? organizer.id : Math.random().toString(), formData.name.value, formData.address.value, formData.yearOfEstablishment.value, formData.logo.value, formData.contactPhone.value, formData.email.value, organizer ? organizer.festivals : []);
+        const newOrganizer = new Organizer(
+            organizer ? organizer.id : Math.random().toString(36), 
+            formData.name.value, 
+            formData.address.value, 
+            formData.yearOfEstablishment.value, 
+            formData.logo.value, 
+            formData.contactPhone.value, 
+            formData.email.value, 
+            organizer ? organizer.festivals : []
+        );
         onConfirm(newOrganizer);
         modal.close()
     }
@@ -269,7 +278,7 @@ function OrganizerDataModal({organizer, onConfirm}) {
                                     `2px solid ${(formData.yearOfEstablishment.error ? "red" : "green")}` : 
                                     "none")
                             }}
-                            type="number" id="yearOfEstablishment" name="yearOfEstablishment" 
+                            type="number" id="yearOfEstablishment" name="yearOfEstablishment" min={0} max={new Date().getFullYear()}
                             value={formData.yearOfEstablishment.value} onChange={handleOnlyRequiredChange}
                         />
                     </div>

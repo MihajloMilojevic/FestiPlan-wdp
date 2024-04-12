@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import styles from "./Festival.module.css";
 import { Link } from 'react-router-dom';
 import { SearchableText } from '../../common';
-import FestivalTypeIcon from '../FestivalTypeIcon/FestivalTypeIcon';
-import FestivalTransportationIcon from '../FestivalTransportationIcon/FestivalTransportationIcon';
+import FestivalTypeIcon from "../../common/FestivalTypeIcon/FestivalTypeIcon";
+import FestivalTransportationIcon from '../../common/FestivalTransportationIcon/FestivalTransportationIcon';
 import {GiTakeMyMoney} from "@react-icons/all-files/gi/GiTakeMyMoney"
 import {HiOutlineUserGroup} from "@react-icons/all-files/hi/HiOutlineUserGroup"
 

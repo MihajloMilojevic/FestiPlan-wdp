@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useTitle from "../../hooks/useTitle";
 import { useAppContext } from '../../context/contextProvider';
@@ -7,13 +7,19 @@ import {GiTrashCan} from "@react-icons/all-files/gi/GiTrashCan"
 import {GiPencil} from "@react-icons/all-files/gi/GiPencil"
 import {GrAdd} from "@react-icons/all-files/gr/GrAdd"
 import {GrNext} from "@react-icons/all-files/gr/GrNext"
+import { AiOutlineCloseCircle } from "@react-icons/all-files/ai/AiOutlineCloseCircle";
 import {GrPrevious} from "@react-icons/all-files/gr/GrPrevious"
 import toast from "react-hot-toast";
 import { Organizer, User } from "../../models";
 import { Link } from 'react-router-dom';
 import { SearchableText } from '../../components/common';
 import validateImageUrl from '../../utils/validateImageUrl';
+import { FestivalTypeIcon, FestivalTransportationIcon } from '../../components/common';
+import {GiTakeMyMoney} from "@react-icons/all-files/gi/GiTakeMyMoney"
+import {HiOutlineUserGroup} from "@react-icons/all-files/hi/HiOutlineUserGroup"
+import Festival, { FestivalTransportations, FestivalTypes } from '../../models/festival';
 import styles from "../../styles/admin/festivals.module.css"
+import useWindowSize from '../../hooks/useWindowSize';
 
 export default function OrganizersFestivalsPage() {
     const {data, setData, modal} = useAppContext();
@@ -38,36 +44,44 @@ export default function OrganizersFestivalsPage() {
         )
     }
 
-    // async function editOrganizer(newOrganizer) {
-    //     const copy = [...data.organizers];
-    //     const index = copy.findIndex(o => o.id === newOrganizer.id);
-    //     copy[index] = newOrganizer;
-    //     setData({...data, organizers: copy});
-    // }
+    async function editFestival(newFestival) {
+        const festivalsCopy = [...organizer.festivals];
+        const festivalIndex = festivalsCopy.findIndex(f => f.id === newFestival.id);
+        festivalsCopy[festivalIndex] = newFestival;
+        organizer.festivals = festivalsCopy;
+        const copy = [...data.organizers];
+        const organizerIndex = copy.findIndex(o => o.id === organizer.id);
+        copy[organizerIndex] = organizer;
+        setData({...data, organizers: copy});
+    }
 
-    // function handleEdit(organizer) {
-    //     modal.open(
-    //         <OrganizerDataModal organizer={organizer} onConfirm={editOrganizer} />,
-    //         {contentWrapperClassName: styles.wrapper    }
-    //     )
-    // }
+    function handleEdit(festival) {
+        modal.open(
+            <FestivalDataModel festival={festival} onConfirm={editFestival} />,
+            {contentWrapperClassName: styles.wrapper    }
+        )
+    }
 
-    // async function createOrganizer(newOrganizer) {
-    //     setData({...data, organizers: [...data.organizers, newOrganizer]})
-    // }
+    async function createFestival(newFestival) {
+        organizer.festivals.push(newFestival);
+        const copy = [...data.organizers];
+        const index = copy.findIndex(o => o.id === organizer.id);
+        copy[index] = organizer;
+        setData({...data, organizers: copy});
+    }
 
-    // function handleCreate() {
-    //     modal.open(
-    //         <OrganizerDataModal onConfirm={createOrganizer} />,
-    //         {contentWrapperClassName: styles.wrapper}
-    //     )
-    // }
+    function handleCreate() {
+        modal.open(
+            <FestivalDataModel onConfirm={createFestival} />,
+            {contentWrapperClassName: styles.wrapper}
+        )
+    }
 
     return (
         <>
             <h1><SearchableText text={`All ${organizer.name}'s Festivals`} /></h1>
             <button 
-                // onClick={handleCreate} 
+                onClick={handleCreate} 
                 style={{maxWidth: 100}} 
                 className={styles.action_button}
             >
@@ -97,15 +111,35 @@ export default function OrganizersFestivalsPage() {
                                             <FestivalGallery festival={festival} />
                                         </td>
                                         <td><SearchableText text={festival.name} /></td>
-                                        <td><SearchableText text={festival.type} /></td>
-                                        <td><SearchableText text={festival.transportation} /></td>
-                                        <td><SearchableText text={festival.price} /></td>
-                                        <td><SearchableText text={festival.maxPerson} /></td>
+                                        <td>
+                                            <div className={styles.icon_text}>
+                                                <FestivalTypeIcon type={festival.type} size={20} />
+                                                <SearchableText text={festival.type} />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className={styles.icon_text}>
+                                                <FestivalTransportationIcon transportation={festival.transportation} size={20} />
+                                                <SearchableText text={festival.transportation} />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className={styles.icon_text}>
+                                                <GiTakeMyMoney size={20} />
+                                                <SearchableText text={festival.price} />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className={styles.icon_text}>
+                                                <HiOutlineUserGroup size={20} />
+                                                <SearchableText text={festival.maxPerson} />
+                                            </div>
+                                        </td>
                                         <td><SearchableText text={festival.description} /></td>
                                         <td>
                                             <div 
                                                 className={styles.action_button} 
-                                                // onClick={() => handleEdit(organizer)}
+                                                onClick={() => handleEdit(festival)}
                                             >
                                                 <GiPencil size={20} />
                                                 <span>
@@ -188,186 +222,314 @@ function ConfirmDeleteModal({festival, onConfirm}) {
         </div>
     )
 }
-// function getInitialFormData(organizer) {
-//     if(organizer) return {
-//         name: {value: organizer.name, error: false},
-//         address: {value: organizer.address, error: false},
-//         contactPhone: {value: organizer.contactPhone, error: false},
-//         email: {value: organizer.email, error: false},
-//         yearOfEstablishment: {value: organizer.yearOfEstablishment, error: false},
-//         logo: {value: organizer.logo, error: false},
-//     }
-//     return {
-//         name: {value: "", error: null},
-//         address: {value: "", error: null},
-//         contactPhone: {value: "", error: null},
-//         email: {value: "", error: null},
-//         yearOfEstablishment: {value: "", error: null},
-//         logo: {value: "", error: null},
-//     }
-// }
+function getInitialFormData(festival) {
+    if(festival) return {
+        name: {value: festival.name, error: false},
+        description: {value: festival.description, error: false},
+        maxPerson: {value: festival.maxPerson, error: false},
+        price: {value: festival.price, error: false},
+        type: {value: festival.type, error: false},
+        transportation: {value: festival.transportation, error: false},
+        images: {value: festival.images}
+    }
+    return {
+        name: {value: "", error: null},
+        description: {value: "", error: null},
+        maxPerson: {value: "", error: null},
+        price: {value: "", error: null},
+        type: {value: "", error: null},
+        transportation: {value: "", error: null},
+        images: {value: []}
+    }
+}
 
-// function OrganizerDataModal({organizer, onConfirm}) {
-//     const {modal} = useAppContext()
-//     const [currentStep, setCurrentStep] = useState(0)
-//     const [formData, setFormData] = useState(getInitialFormData(organizer))
+function splitArray(arr, size) {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+        result.push(arr.slice(i, i + size));
+    }
+    return result;
+}
 
-//     async function handleSubmit(event) {
-//         event.preventDefault();
-//         if(
-//             formData.name.error == null || formData.address.error == null || formData.contactPhone.error == null || 
-//             formData.email.error == null || formData.yearOfEstablishment.error == null || formData.logo.error == null ||
-//             formData.name.error || formData.address.error || formData.contactPhone.error || 
-//             formData.email.error || formData.yearOfEstablishment.error || formData.logo.error
-//         ) {
-//             toast.error("Please fill in all required fields.");
-//             return;
-//         }
-//         const isImageValid = await validateImageUrl(formData.logo.value);
-//         if(!isImageValid) {
-//             toast.error("Invalid image url.");
-//             return;
-//         }
-//         const newOrganizer = new Organizer(organizer ? organizer.id : Math.random().toString(), formData.name.value, formData.address.value, formData.yearOfEstablishment.value, formData.logo.value, formData.contactPhone.value, formData.email.value, organizer ? organizer.festivals : []);
-//         onConfirm(newOrganizer);
-//         modal.close()
-//     }
+function FestivalDataModel({festival, onConfirm}) {
 
-//     function handleNext() {
-//         if(currentStep === 1) return;
-//         setCurrentStep(currentStep + 1);
-//     }
-//     function handlePrevious() {
-//         if(currentStep === 0) return;
-//         setCurrentStep(currentStep - 1);
-//     }
+    const [SIZE, setSize] = useState(3);
+    const {modal} = useAppContext()
+    const [currentStep, setCurrentStep] = useState(0)
+    const [formData, setFormData] = useState(getInitialFormData(festival))
+    const [stepCount, setStepCount] = useState(3);
+    const windowSize = useWindowSize();
+    
+    useEffect(() => {
+        setStepCount(2 + Math.ceil(formData.images.value.length / SIZE) + (formData.images.value.length % SIZE === 0 ? 1 : 0));
+    }, [formData.images.value])
 
-//     function handleOnlyRequiredChange(e) {
-//         const {name, value} = e.target;
-//         setFormData({...formData, [name]: {value, error: !value}});
-//     }
+    useEffect(() => {
+        if(windowSize.width < 512) {
+            setSize(1);
+        }
+        else if(windowSize.width < 768) {
+            setSize(2);
+        }
+        else {
+            setSize(3);
+        }
+        if(windowSize.height < 500) {
+            setSize(1);
+        }
+    }, [windowSize])
 
-//     function handleEmailChange(e) {
-//         const {name, value} = e.target;
-//         const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-//         setFormData({...formData, [name]: {value, error: !emailRegex.test(value)}});
-//     }
-//     return (
-//         <form className={styles.form} onSubmit={handleSubmit}>
-//             <h2>{organizer ? "Edit" : "Create"} organizer {currentStep+1}/2</h2>
-//             <div style={{
-//                 position: "relative",
-//                 overflowX: "hidden",
-//                 width: "100%",
-//                 alignSelf: "stretch",
-//                 flex: 1,
-//                 display: "flex",
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 flexDirection: "column"
-//             }}>
-//                 <div className={styles.inputs} style={{
-//                     transform: `translateX(-${currentStep * 101}%)`
-//                 }}>
-//                     <div>
-//                         <label htmlFor="name">Name:</label>
-//                         <input 
-//                             style={{
-//                                 border: (formData.name.error != null ? 
-//                                     `2px solid ${(formData.name.error ? "red" : "green")}` : 
-//                                     "none")
-//                             }} 
-//                             type="text" id="name" name="name" 
-//                             value={formData.name.value} onChange={handleOnlyRequiredChange} 
-//                         />
-//                     </div>
-//                     <div>
-//                         <label htmlFor="address">Address:</label>
-//                         <input 
-//                             style={{
-//                                 border: (formData.address.error != null ? 
-//                                     `2px solid ${(formData.address.error ? "red" : "green")}` : 
-//                                     "none")
-//                             }}
-//                             type="text" id="address" name="address"
-//                             value={formData.address.value} onChange={handleOnlyRequiredChange}
-//                         />
-//                     </div>
-//                     <div>
-//                         <label htmlFor="email">Email:</label>
-//                         <input 
-//                             style={{
-//                                 border: (formData.email.error != null ? 
-//                                     `2px solid ${(formData.email.error ? "red" : "green")}` : 
-//                                     "none")
-//                             }}
-//                             type="text" id="email" name="email" 
-//                             value={formData.email.value} onChange={handleEmailChange} 
-//                         />
-//                     </div>
-//                     <div>
-//                         <label htmlFor="contactPhone">Phone:</label>
-//                         <input 
-//                             style={{
-//                                 border: (formData.contactPhone.error != null ? 
-//                                     `2px solid ${(formData.contactPhone.error ? "red" : "green")}` : 
-//                                     "none")
-//                             }}
-//                             type="tel" id="contactPhone" name="contactPhone" 
-//                             value={formData.contactPhone.value} onChange={handleOnlyRequiredChange}
-//                         />
-//                     </div>
-//                     <div>
-//                         <label htmlFor="yearOfEstablishment">Year of Establishment:</label>
-//                         <input 
-//                             style={{
-//                                 border: (formData.yearOfEstablishment.error != null ? 
-//                                     `2px solid ${(formData.yearOfEstablishment.error ? "red" : "green")}` : 
-//                                     "none")
-//                             }}
-//                             type="number" id="yearOfEstablishment" name="yearOfEstablishment" 
-//                             value={formData.yearOfEstablishment.value} onChange={handleOnlyRequiredChange}
-//                         />
-//                     </div>
-//                 </div>
+    async function handleSubmit(event) {
+        event.preventDefault();
+        if(
+            formData.name.error || formData.description.error || formData.maxPerson.error || 
+            formData.price.error || formData.type.error || formData.transportation.error || !formData.images.value.every(Boolean) ||
+            formData.name.error == null || formData.description.error == null || formData.maxPerson.error == null || 
+            formData.price.error == null || formData.type.error == null || formData.transportation.error == null
+        ) {
+            toast.error("Please fill in all required fields.");
+            return;
+        }
+        if(formData.images.value.length === 0) {
+            toast.error("Please add at least one image.");
+            return;
+        }
+        const areAllImagesValid = await Promise.all(formData.images.value.map(validateImageUrl));
+        if(!areAllImagesValid.every(Boolean)) {
+            toast.error("One or more images are invalid. Please check the urls and try again.");
+            return;
+        }
+        const newFestival = new Festival(
+            festival ? festival.id : Math.random().toString(36), 
+            formData.name.value, 
+            formData.description.value,
+            formData.images.value,
+            formData.type.value,
+            formData.transportation.value,
+            formData.price.value,
+            formData.maxPerson.value 
+        );
+        onConfirm(newFestival);
+        modal.close()
+    }
+
+    function handleNext() {
+        if(currentStep === stepCount - 1) return;
+        setCurrentStep(currentStep + 1);
+    }
+    function handlePrevious() {
+        if(currentStep === 0) return;
+        setCurrentStep(currentStep - 1);
+    }
+
+    function handleOnlyRequiredChange(e) {
+        const {name, value} = e.target;
+        setFormData({...formData, [name]: {value, error: !value}});
+    }
+
+    function removeImage(index) {
+        const newImages = formData.images.value.filter((_, i) => i !== index);
+        setFormData({...formData, images: {value: newImages, error: null}});
+    }
+
+    function addImage() {
+        const newImages = [...formData.images.value, ""];
+        setFormData({...formData, images: {value: newImages, error: null}});
+    }
+
+    return (
+        <form className={styles.form} onSubmit={handleSubmit}>
+            <h2>{festival ? "Edit" : "Create"} festival {currentStep+1}/{stepCount}</h2>
+            <div style={{
+                position: "relative",
+                overflowX: "hidden",
+                width: "100%",
+                alignSelf: "stretch",
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column"
+            }}>
+                <div className={styles.inputs} style={{
+                    transform: `translateX(-${currentStep * 101}%)`
+                }}>
+                    <div>
+                        <label htmlFor="name">Name:</label>
+                        <input 
+                            style={{
+                                border: (formData.name.error != null ? 
+                                    `2px solid ${(formData.name.error ? "red" : "green")}` : 
+                                    "none")
+                            }} 
+                            type="text" id="name" name="name" 
+                            value={formData.name.value} onChange={handleOnlyRequiredChange} 
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="description">Description:</label>
+                        <textarea 
+                            style={{
+                                border: (formData.description.error != null ? 
+                                    `2px solid ${(formData.description.error ? "red" : "green")}` : 
+                                    "none")
+                            }}
+                            rows={10}
+                            type="text" id="description" name="description" 
+                            value={formData.description.value} onChange={handleOnlyRequiredChange} 
+                        />
+                    </div>
+                </div>
                 
-//                 <div className={styles.inputs} style={{
-//                     transform: `translateX(-${(currentStep) * 100}%) translateY(-50%)`,
-//                     position: "absolute",
-//                     right: "-100%",
-//                     top: "50%"
-//                 }}>
-//                     <div>
-//                         <label htmlFor="logo">Logo:</label>
-//                         <input 
-//                             style={{
-//                                 border: (formData.logo.error != null ? 
-//                                     `2px solid ${(formData.logo.error ? "red" : "green")}` : 
-//                                     "none")
-//                             }}
-//                             type="text" id="logo" name="logo"
-//                             value={formData.logo.value} onChange={handleOnlyRequiredChange}
-//                         />
-//                     </div>
-//                     <div className={styles.form_logo}>
-//                         <img src={formData.logo.error || formData.logo.error == null ? "/no-image.svg" : formData.logo.value} alt="Invalid url" />
-//                     </div>
-//                 </div>
-//             </div>
-//             <div className={styles.buttons}>
-//                 <div>
-//                     <button type="submit">Save</button>
-//                     <button type="button" onClick={modal.close}>Cancel</button>
-//                 </div>
-//                 <div>
-//                     {
-//                         currentStep > 0 && <button type="button" onClick={handlePrevious}>Back</button>
-//                     }
-//                     {
-//                         currentStep < 1 && <button type="button" onClick={handleNext}>Next</button>
-//                     }
-//                 </div>
-//             </div>
-//         </form>
-//     );
-// }
+                <div className={styles.inputs} style={{
+                    transform: `translateX(-${(currentStep) * 100}%) translateY(-50%)`,
+                    position: "absolute",
+                    right: "-100%",
+                    top: "50%"
+                }}>
+                    <div>
+                        <label htmlFor="type">Type:</label>
+                        <select 
+                            style={{
+                                border: (formData.type.error != null ? 
+                                    `2px solid ${(formData.type.error ? "red" : "green")}` : 
+                                    "none")
+                            }}
+                            id="type" name="type" 
+                            value={formData.type.value} onChange={handleOnlyRequiredChange}
+                        >
+                            <option value=""></option>
+                            {
+                                FestivalTypes.values().map(value => (
+                                    <option key={value} value={value} >
+                                        <SearchableText text={value} />
+                                    </option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="transportation">Transportation:</label>
+                        <select 
+                            style={{
+                                border: (formData.transportation.error != null ? 
+                                    `2px solid ${(formData.transportation.error ? "red" : "green")}` : 
+                                    "none")
+                            }}
+                            id="transportation" name="transportation" 
+                            value={formData.transportation.value} onChange={handleOnlyRequiredChange}
+                        >
+                            <option value=""></option>
+                            {
+                                FestivalTransportations.values().map(value => (
+                                    <option key={value} value={value} >
+                                        <SearchableText text={value} />
+                                    </option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="price">Price:</label>
+                        <input 
+                            style={{
+                                border: (formData.price.error != null ? 
+                                    `2px solid ${(formData.price.error ? "red" : "green")}` : 
+                                    "none")
+                            }}
+                            type="number" id="price" name="price" min={0}
+                            value={formData.price.value} onChange={handleOnlyRequiredChange}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="maxPerson">Maximum Number Of People:</label>
+                        <input 
+                            style={{
+                                border: (formData.maxPerson.error != null ? 
+                                    `2px solid ${(formData.maxPerson.error ? "red" : "green")}` : 
+                                    "none")
+                            }}
+                            type="number" id="maxPerson" name="maxPerson" min={0}
+                            value={formData.maxPerson.value} onChange={handleOnlyRequiredChange}
+                        />
+                    </div>
+                </div>
+                {
+                    splitArray(formData.images.value, SIZE).map((images, index) => (
+                        <div key={index} className={styles.inputs} style={{
+                            transform: `translateX(-${(currentStep) * 100}%) translateY(-50%)`,
+                            position: "absolute",
+                            right: `-${100*(index+2)}%`,
+                            top: "50%"
+                        }}>
+                            {
+                                images.map((image, i) => (
+                                    <div key={i}>
+                                        <label htmlFor={`image_${index * SIZE + i}`}>Image {index * SIZE + i + 1}:</label>
+                                        <input 
+                                            type="text" id={`image_${index * SIZE + i}`} name={`image_${index * SIZE + i}`}
+                                            value={image} onChange={e => {
+                                                const newImages = [...formData.images.value];
+                                                newImages[index * SIZE + i] = e.target.value;
+                                                setFormData({...formData, images: {value: newImages}});
+                                            }}
+                                        />
+                                        <div className={styles.preview}>
+                                            <div>
+                                                <img src={image ? image : "/no-image.svg"} alt={`Invalid url`} />
+                                            </div>
+                                            <button className={styles.close} type="button" onClick={() => removeImage(index*SIZE+i)}>
+                                                <AiOutlineCloseCircle size={20} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                            {
+                                images.length < SIZE && (
+                                    <button type="button" onClick={addImage} className={styles.action_button}>
+                                        <GrAdd size={20} />
+                                        <span>
+                                            <SearchableText text="Add Image" />
+                                        </span>
+                                    </button>
+                                )
+                            }
+                        </div>
+                    ))
+                }
+                {
+                    formData.images.value.length % SIZE === 0 && (
+                        <div className={styles.inputs} style={{
+                            transform: `translateX(-${(currentStep) * 100}%) translateY(-50%)`,
+                            position: "absolute",
+                            right: `-${100*(parseInt(formData.images.value.length / SIZE)+2)}%`,
+                            top: "50%"
+                        }}>
+                            <button type="button" onClick={addImage} className={styles.action_button}>
+                                <GrAdd size={20} />
+                                <span>
+                                    <SearchableText text="Add Image" />
+                                </span>
+                            </button>
+                        </div>
+                    )
+                }
+            </div>
+            <div className={styles.buttons}>
+                <div>
+                    <button type="submit">Save</button>
+                    <button type="button" onClick={modal.close}>Cancel</button>
+                </div>
+                <div>
+                    {
+                        currentStep > 0 && <button type="button" onClick={handlePrevious}>Back</button>
+                    }
+                    {
+                        currentStep < stepCount-1 && <button type="button" onClick={handleNext}>Next</button>
+                    }
+                </div>
+            </div>
+        </form>
+    );
+}

@@ -112,6 +112,13 @@
     background-color: var(--color-auxiliary-2);
 }
 
+.icon_text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+}
+
 /*  FROM REGISTER */
 
 
@@ -155,7 +162,7 @@
 .inputs  div label {
     flex: 1;
 }
-.inputs  div input {
+.inputs  div input, .inputs  div select, .inputs  div textarea{
     flex: 2;
     padding: 0.5rem;
     border-radius: 0.25rem;
@@ -163,6 +170,7 @@
     outline: none;
     border: none;
     border-radius: 0.5rem;
+    width: 100%;
 }
 
 .buttons {
@@ -207,11 +215,48 @@
     background-color: var(--color-main);
     color: var(--color-bg-secondary);
 }
-
+.preview {
+    flex: 1;
+    max-width: 75px;
+    aspect-ratio: 1;
+    position: relative;
+    margin-right: 10px;
+    /* overflow: hidden; */
+}
+.preview div {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.preview .close {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-auxiliary-2);
+    color: var(--color-bg-secondary);
+    border: none;
+    border-radius: 50%;
+    padding: 0.25rem;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
 
 .wrapper {
     min-width: 40%;
-    min-height: 70%;
+    min-height: 90%;
     max-height: 100%;
     display: flex;
     flex-direction: column;
@@ -253,5 +298,8 @@
     }
     .inputs div input {
         width: 100%;
+    }
+    .preview {
+        max-width: 150px;
     }
 }
