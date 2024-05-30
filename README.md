@@ -1,6 +1,7 @@
 # Festiplan
 ## Project for subject - web design (II semestar)
 
+
 This project has been created as pre-exam obligation for course *Web Design*. Detailed specification can be found in [Project Spesifications](https://github.com/MihajloMilojevic/FestiPlan-wdp/blob/master/materijali/WD%202024%20Specifikacija%20projekta.pdf). The purpose of this project was to create a frontend for a website with features listed below.
 
 ## Demo
